@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Tahoma', 'Verdana', 'Segoe UI', sans-serif;
+    @apply select-none;
+    /* XP interfaces weren't usually selectable like web text */
+  }
+}
+
+@layer components {
+  .xp-button {
+    @apply px-4 py-1.5 bg-[#f0f0f0] border border-[#003c74] rounded-[3px];
+    box-shadow: inset 1px 1px 0px #ffffff, inset -1px -1px 0px #d4d0c8;
+    background: linear-gradient(to bottom, #fff 0%, #ece9d8 100%);
+  }
+
+  .xp-button:active {
+    @apply translate-y-[1px];
+    box-shadow: inset 1px 1px 0px #d4d0c8, inset -1px -1px 0px #ffffff;
+  }
+
+  .xp-inset-border {
+    border: 2px solid;
+    border-color: #808080 #ffffff #ffffff #808080;
+  }
+}
+
+/* XP Wallpaper Gradient Fallback */
+.xp-desktop {
+  background: #245edc;
+}
+
+/* Scrollbar Styling - The classic blue scrollbar */
+::-webkit-scrollbar {
+  width: 17px;
+  height: 17px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #ece9d8;
+  background-image: linear-gradient(to right, #ece9d8 0%, #ece9d8 100%);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cdd3e6;
+  border: 1px solid #ffffff;
+  box-shadow: inset 1px 0 0 #f0f0f0, inset 0 1px 0 #f0f0f0;
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a9b8d6;
+}
+
+/* Scrollbar Buttons (Arrows) */
+/* Scrollbar Buttons (Arrows) */
+::-webkit-scrollbar-button {
+  display: block;
+  background-color: #ece9d8;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* Button bevel effect */
+  box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #808080;
+  border: 1px solid #d4d0c8;
+}
+
+/* Ensure we only target the single buttons at the ends */
+::-webkit-scrollbar-button:single-button {
+  display: block;
+  height: 17px;
+  width: 17px;
+}
+
+::-webkit-scrollbar-button:active {
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #ffffff;
+}
+
+/* Vertical Scrollbar Buttons */
+/* Top Button - Decrement */
+::-webkit-scrollbar-button:vertical:decrement {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7' viewBox='0 0 7 4'%3E%3Cpath fill='%23000' d='M3.5 0L7 4H0z'/%3E%3C/svg%3E");
+}
+
+/* Bottom Button - Increment */
+::-webkit-scrollbar-button:vertical:increment {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7' viewBox='0 0 7 4'%3E%3Cpath fill='%23000' d='M3.5 4L7 0H0z'/%3E%3C/svg%3E");
+}
+
+/* Horizontal Scrollbar Buttons */
+/* Left Button - Decrement */
+::-webkit-scrollbar-button:horizontal:decrement {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='7' viewBox='0 0 4 7'%3E%3Cpath fill='%23000' d='M0 3.5L4 7V0z'/%3E%3C/svg%3E");
+}
+
+/* Right Button - Increment */
+::-webkit-scrollbar-button:horizontal:increment {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='7' viewBox='0 0 4 7'%3E%3Cpath fill='%23000' d='M4 3.5L0 7V0z'/%3E%3C/svg%3E");
+}
+
+/* Prevent double buttons (if any) from showing wrong arrows */
+::-webkit-scrollbar-button:vertical:start:increment,
+::-webkit-scrollbar-button:vertical:end:decrement,
+::-webkit-scrollbar-button:horizontal:start:increment,
+::-webkit-scrollbar-button:horizontal:end:decrement {
+  display: none;
+}
+
+/* Corner */
+::-webkit-scrollbar-corner {
+  background: #ece9d8;
+}
+
+/* Fit the original XP composition to the viewport without stretching its logo. */
+.xp-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: #000;
+}
+
+.xp-boot-screen {
+  position: relative;
+  width: min(100vw, 133.333333vh);
+  width: min(100vw, 133.333333dvh);
+  aspect-ratio: 4 / 3;
+}
+
+.xp-boot-screen > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.xp-boot-track {
+  position: absolute;
+  left: 40.15625%;
+  top: 73.541667%;
+  width: 18.90625%;
+  height: 2.291667%;
+  overflow: hidden;
+  background: #000;
+}
+
+.xp-boot-blocks {
+  position: absolute;
+  display: flex;
+  gap: 8.695652%;
+  width: 19.008264%;
+  height: 100%;
+  animation: xp-boot-progress 1.8s linear infinite;
+}
+
+.xp-boot-blocks i {
+  flex: 1;
+  background: linear-gradient(#172a87, #6487f4 45%, #2444bc 65%, #142c86);
+}
+
+@keyframes xp-boot-progress {
+  from {
+    left: -24%;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xp-boot-blocks {
+    animation: none;
+    left: 35%;
+  }
+}

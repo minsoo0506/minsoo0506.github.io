@@ -1,0 +1,96 @@
+{
+  "personal": {
+    "fullname": "Minsoo Park",
+    "title": "Embedded Software Engineer",
+    "email": "mspark010506@gmail.com",
+    "location": "Seoul, Republic of Korea",
+    "bio": "I started in backend development, building APIs and services. I explored vulnerability research in MJSEC, a security club, and weapon-system anti-tampering at the Defense Security Lab.\n\nAt Melcon, I develop firmware for semiconductor equipment, working with schematics, UART/USART communication, and GPIO and peripheral control.\n\nI’m growing as an embedded software engineer, focused on equipment control and interested in defense systems and drones.",
+    "avatar": "minsoo.png",
+    "instagram": "https://www.instagram.com/xoreax_eax/",
+    "instagramHandle": "@xoreax_eax"
+  },
+  "skills": [
+    { "category": "Languages", "items": ["C", "C++", "Python", "Java"] },
+    {
+      "category": "Embedded Systems",
+      "items": ["UART / USART", "GPIO", "Peripheral Control", "Schematic Reading"]
+    },
+    { "category": "Security", "items": ["Vulnerability Research", "Reverse Engineering Studies"] },
+    { "category": "Other Frameworks", "items": ["Spring Boot", "FastAPI"] },
+    { "category": "Databases", "items": ["MySQL", "PostgreSQL", "Redis"] },
+    {
+      "category": "Tools",
+      "items": ["Visual Studio", "Keil µVision", "STM32CubeIDE", "Git", "Docker"]
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "title": "ClassBridge-BE",
+      "description": "Backend for a one-day class platform connecting instructors and learners, with class discovery, reservations, payments, and real-time chat.",
+      "technologies": ["Spring Boot", "MySQL", "WebSocket", "Docker"],
+      "image": "classbridge.svg",
+      "link": "https://github.com/minsoo0506/ClassBridge-BE"
+    },
+    {
+      "id": 2,
+      "title": "MSG_CTF_BACK_v1.0",
+      "description": "A custom CTF competition platform for individual players at MJSEC, built without CTFd. Backend maintenance for challenge, participant, and ranking services.",
+      "technologies": ["Spring Boot", "MySQL", "Redis", "Docker"],
+      "image": "msg-ctf-v1.svg",
+      "link": "https://github.com/minsoo0506/MSG_CTF_BACK_v1.0"
+    },
+    {
+      "id": 3,
+      "title": "MSG_CTF_BACK_v2.0",
+      "description": "The team-competition version of MJSEC’s custom CTF platform, supporting a shared competition experience for teams.",
+      "technologies": ["Spring Boot", "MySQL", "Redis", "Docker"],
+      "image": "msg-ctf-v2.svg",
+      "link": "https://github.com/minsoo0506/MSG_CTF_BACK_v2.0"
+    },
+    {
+      "id": 4,
+      "title": "LinClean-BE-fastapi",
+      "description": "A URL security engine that combines redirect tracing, threat databases, domain heuristics, content analysis, and AI-assisted assessment into a risk verdict.",
+      "technologies": ["Python", "FastAPI", "SQLAlchemy", "OpenAI API"],
+      "image": "linclean.svg",
+      "link": "https://github.com/403-Forb2dden/LinClean-BE-fastapi"
+    }
+  ],
+  "experience": [
+    {
+      "company": "Melcon",
+      "position": "Embedded Software Engineer Intern",
+      "period": "Mar 2026 – Present",
+      "description": "Develop firmware for semiconductor equipment based on hardware schematics and communication specifications. Implement UART/USART initialization and data handling, and work with GPIO and peripheral control."
+    },
+    {
+      "company": "Defense Security Lab",
+      "position": "Researcher",
+      "period": "Apr 2025 – Feb 2026",
+      "description": "Evaluated the impact of anti-tampering measures on weapon systems as part of a LIG Nex1 project. Contributed to the development of a CMMC compliance tool."
+    },
+    {
+      "company": "MJSEC · Security Club",
+      "position": "Backend Mentor · Security Club Member",
+      "period": "Dec 2024 – Mar 2026",
+      "description": "Mentored backend developers and contributed to CTF and assignment-management platforms. Conducted vulnerability research and studied web security and reverse engineering."
+    }
+  ],
+  "education": [
+    {
+      "institution": "Zero-Base",
+      "degree": "Backend Development Bootcamp",
+      "period": "Nov 2023 – Jul 2024"
+    },
+    {
+      "institution": "Myongji University",
+      "degree": "Computer Engineering",
+      "period": "Enrolled Mar 2020"
+    }
+  ],
+  "social": {
+    "github": "https://github.com/minsoo0506",
+    "instagram": "https://www.instagram.com/xoreax_eax/"
+  }
+}
