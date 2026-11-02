@@ -233,7 +233,10 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                     My Pictures
                   </span>
                 </button>
-                <button className="w-full text-left px-3 py-1.5 flex items-center gap-2 hover:bg-[#2F71CD] hover:text-white group rounded-[3px]">
+                <button
+                  onClick={() => handleMenuItemClick('music')}
+                  className="w-full text-left px-3 py-1.5 flex items-center gap-2 hover:bg-[#2F71CD] hover:text-white group rounded-[3px]"
+                >
                   <span className="text-[11px] font-bold text-[#00136B] group-hover:text-white">
                     My Music
                   </span>

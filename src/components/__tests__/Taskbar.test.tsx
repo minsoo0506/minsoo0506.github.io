@@ -45,5 +45,10 @@ describe('Taskbar', () => {
 
     // start menu should close after click
     expect(screen.queryByText('Windows XP')).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /start/i }));
+    await user.click(screen.getByText('My Music'));
+    expect(onStartMenuClick).toHaveBeenLastCalledWith('music');
+    expect(screen.queryByText('My Music')).not.toBeInTheDocument();
   });
 });

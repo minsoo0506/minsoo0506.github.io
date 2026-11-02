@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { Music } from 'lucide-react';
+import { MusicWindow } from './components/windows/MusicWindow';
 import { Window } from './components/Window';
 import { Taskbar } from './components/Taskbar';
 import { DesktopIcon } from './components/DesktopIcon';
@@ -57,6 +59,12 @@ function App() {
         icon: <img src="images/folder.ico" alt="My Projects" className="w-4 h-4" />,
         component: <ProjectsWindow projects={portfolioData.projects} />,
         position: { x: 300, y: 35 },
+      },
+      music: {
+        title: 'My Music — Windows Media Player',
+        icon: <Music size={16} className="text-white" />,
+        component: <MusicWindow />,
+        position: { x: 120, y: 45 },
       },
       contact: {
         title: 'Contact',
