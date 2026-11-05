@@ -223,7 +223,10 @@ export const Taskbar: React.FC<TaskbarProps> = ({
 
               {/* Right Column (Blue) */}
               <div className="w-[50%] bg-[#D3E5FA] py-2 px-1 border-l border-[#95BDE7] flex flex-col gap-1">
-                <button className="w-full text-left px-3 py-1.5 flex items-center gap-2 hover:bg-[#2F71CD] hover:text-white group rounded-[3px]">
+                <button
+                  onClick={() => handleMenuItemClick('documents')}
+                  className="w-full text-left px-3 py-1.5 flex items-center gap-2 hover:bg-[#2F71CD] hover:text-white group rounded-[3px]"
+                >
                   <span className="text-[11px] font-bold text-[#00136B] group-hover:text-white">
                     My Documents
                   </span>

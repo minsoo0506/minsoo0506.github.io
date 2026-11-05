@@ -1,0 +1,25 @@
+{
+  "name": "minsoo-blog-studio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev --host 127.0.0.1",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "dependencies": {
+    "@sanity/locale-ko-kr": "1.1.40",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "sanity": "6.22.0",
+    "styled-components": "^6.1.15"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "typescript": "^5.6.3"
+  }
+}

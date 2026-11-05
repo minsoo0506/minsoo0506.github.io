@@ -50,5 +50,9 @@ describe('Taskbar', () => {
     await user.click(screen.getByText('My Music'));
     expect(onStartMenuClick).toHaveBeenLastCalledWith('music');
     expect(screen.queryByText('My Music')).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /start/i }));
+    await user.click(screen.getByText('My Documents'));
+    expect(onStartMenuClick).toHaveBeenLastCalledWith('documents');
+    expect(screen.queryByText('My Documents')).not.toBeInTheDocument();
   });
 });

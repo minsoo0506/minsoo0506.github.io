@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { DocumentsWindow } from './components/windows/DocumentsWindow';
 import { Music } from 'lucide-react';
 import { MusicWindow } from './components/windows/MusicWindow';
 import { Window } from './components/Window';
@@ -20,6 +21,13 @@ interface OpenWindow {
   position?: { x: number; y: number };
 }
 
+const documentsConfig = {
+  title: 'My Documents',
+  icon: <img src="images/folder.ico" alt="" className="w-4 h-4" />,
+  component: <DocumentsWindow />,
+  position: { x: 100, y: 35 },
+};
+
 function App() {
   const [openWindows, setOpenWindows] = useState<OpenWindow[]>([]);
   const [activeWindow, setActiveWindow] = useState<string | null>(null);
@@ -30,6 +38,21 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const openDocumentsFromAddress = () => {
+      if (!window.location.hash.startsWith('#/documents')) return;
+      setOpenWindows((current) =>
+        current.some((item) => item.id === 'documents')
+          ? current
+          : [...current, { id: 'documents', ...documentsConfig }]
+      );
+      setActiveWindow('documents');
+    };
+    openDocumentsFromAddress();
+    window.addEventListener('hashchange', openDocumentsFromAddress);
+    return () => window.removeEventListener('hashchange', openDocumentsFromAddress);
+  }, []);
+
   const openWindow = (id: string) => {
     if (openWindows.find((w) => w.id === id)) {
       setActiveWindow(id);
@@ -37,6 +60,7 @@ function App() {
     }
 
     const windowConfigs: Record<string, Omit<OpenWindow, 'id'>> = {
+      documents: documentsConfig,
       about: {
         title: 'About Me',
         icon: <img src="images/mypc.ico" alt="About Me" className="w-4 h-4" />,
@@ -82,6 +106,9 @@ function App() {
   };
 
   const closeWindow = (id: string) => {
+    if (id === 'documents' && window.location.hash.startsWith('#/documents')) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
     setOpenWindows(openWindows.filter((w) => w.id !== id));
     if (activeWindow === id) {
       setActiveWindow(openWindows.length > 1 ? openWindows[openWindows.length - 2].id : null);
@@ -140,6 +167,7 @@ function App() {
             className="pointer-events-auto"
           >
             <Window
+              explorer={window.id === 'documents'}
               title={window.title}
               icon={window.icon}
               onClose={() => closeWindow(window.id)}
