@@ -63,7 +63,7 @@ const formatDate = (value: string) => {
   const date = new Date(value);
   return Number.isNaN(date.getTime())
     ? ''
-    : new Intl.DateTimeFormat('ko-KR', {
+    : new Intl.DateTimeFormat('en-US', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
@@ -166,37 +166,37 @@ export function DocumentsWindow() {
   const share = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      setShareStatus('글 주소를 복사했습니다.');
+      setShareStatus('Link copied.');
     } catch {
-      setShareStatus('브라우저 주소창의 주소를 복사해 주세요.');
+      setShareStatus('Copy the link from your address bar.');
     }
   };
   const studioUrl = safeLink(blogConfig.studioUrl);
 
   return (
-    <section className="documents-explorer" aria-label="My Documents 블로그">
+    <section className="documents-explorer" aria-label="My Documents blog">
       <div className="documents-toolbar">
         <button onClick={back} disabled={location.kind === 'home'}>
           <ArrowLeft size={19} />
-          <span>뒤로</span>
+          <span>Back</span>
         </button>
         <button onClick={() => navigate({ kind: 'home' })}>
           <Home size={18} />
-          <span>홈</span>
+          <span>Home</span>
         </button>
         <span className="documents-divider" />
-        <button onClick={() => setRevision((value) => value + 1)} aria-label="새로고침">
+        <button onClick={() => setRevision((value) => value + 1)} aria-label="Refresh">
           <RefreshCw size={17} />
         </button>
         {studioUrl && (
           <a className="documents-write" href={studioUrl} target="_blank" rel="noopener noreferrer">
             <Pencil size={15} />
-            글쓰기
+            Write
           </a>
         )}
       </div>
-      <nav className="documents-address" aria-label="현재 위치">
-        <span>주소</span>
+      <nav className="documents-address" aria-label="Current location">
+        <span>Address</span>
         <div>
           <button onClick={() => navigate({ kind: 'home' })}>
             <FolderIcon small />
@@ -213,7 +213,7 @@ export function DocumentsWindow() {
           {postId && (
             <>
               <ChevronRight size={12} />
-              <span className="documents-address-title">{article?.title || '글 읽기'}</span>
+              <span className="documents-address-title">{article?.title || 'Document'}</span>
             </>
           )}
         </div>
@@ -221,14 +221,14 @@ export function DocumentsWindow() {
       <div className="documents-layout">
         <aside className="documents-sidebar">
           <div className="documents-side-panel">
-            <h2>내 기록</h2>
-            <nav aria-label="폴더">
+            <h2>Folders</h2>
+            <nav aria-label="Folders">
               <button
                 aria-current={location.kind === 'home' ? 'page' : undefined}
                 onClick={() => navigate({ kind: 'home' })}
               >
                 <Home size={14} />
-                전체 글
+                All Posts
               </button>
               {folders.map((item) => (
                 <button
@@ -242,35 +242,27 @@ export function DocumentsWindow() {
               ))}
             </nav>
           </div>
-          <div className="documents-side-panel documents-details">
-            <h2>자세한 정보</h2>
-            <div>
-              <FolderIcon />
-              <strong>{folder?.name || 'My Documents'}</strong>
-              <p>{folder?.description || '배움과 경험, 그리고 일상의 기록을 모았습니다.'}</p>
-            </div>
-          </div>
         </aside>
         <div className="documents-main" ref={content}>
           {location.kind === 'post' ? (
             <>
               {articleLoading ? (
                 <div className="documents-message" role="status">
-                  글을 여는 중입니다…
+                  Loading document…
                 </div>
               ) : articleError ? (
                 <div className="documents-message" role="alert">
                   <FileText size={32} />
-                  <h2>글을 불러오지 못했습니다.</h2>
-                  <p>잠시 후 다시 시도해 주세요.</p>
-                  <button onClick={() => setRevision((value) => value + 1)}>다시 시도</button>
+                  <h2>Unable to load this document.</h2>
+                  <p>Please try again.</p>
+                  <button onClick={() => setRevision((value) => value + 1)}>Retry</button>
                 </div>
               ) : !article ? (
                 <div className="documents-message">
                   <FileText size={32} />
-                  <h2>글을 찾을 수 없습니다.</h2>
-                  <p>삭제되었거나 아직 공개되지 않은 글입니다.</p>
-                  <button onClick={() => navigate({ kind: 'home' })}>전체 글 보기</button>
+                  <h2>Document not found.</h2>
+                  <p>This document is unavailable.</p>
+                  <button onClick={() => navigate({ kind: 'home' })}>All Posts</button>
                 </div>
               ) : (
                 <article className="documents-article">
@@ -278,7 +270,7 @@ export function DocumentsWindow() {
                     <span>{folder?.name}</span>
                     <button onClick={share}>
                       <Share2 size={14} />
-                      주소 복사
+                      Copy link
                     </button>
                   </div>
                   <h1>{article.title}</h1>
@@ -299,49 +291,20 @@ export function DocumentsWindow() {
                   </div>
                   <button className="documents-return" onClick={back}>
                     <ArrowLeft size={14} />
-                    목록으로
+                    Back to list
                   </button>
                 </article>
               )}
             </>
           ) : (
             <>
-              <header className="documents-heading">
-                <div>
-                  <span>Minsoo's journal</span>
-                  <h1>{folder?.name || 'My Documents'}</h1>
-                  <p>{folder?.description || '기록하고, 모아두고, 다시 꺼내보기.'}</p>
-                </div>
-                <FolderIcon />
-              </header>
-              {location.kind === 'home' && (
-                <div className="documents-folders">
-                  {folders.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => navigate({ kind: 'folder', folder: item.id })}
-                    >
-                      <FolderIcon />
-                      <strong>{item.name}</strong>
-                      <span>
-                        {loading
-                          ? '…'
-                          : `${posts.filter((post) => post.category === item.id).length}개의 글`}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              )}
               <div className="documents-list-tools">
-                <h2>
-                  {search ? '검색 결과' : location.kind === 'home' ? '최근 기록' : '폴더 안의 글'}
-                </h2>
                 <label>
                   <Search size={14} />
                   <input
                     type="search"
-                    aria-label="글 검색"
-                    placeholder="글 찾기"
+                    aria-label="Search documents"
+                    placeholder="Search"
                     value={search}
                     onChange={(event) => setSearch(event.target.value)}
                   />
@@ -349,50 +312,60 @@ export function DocumentsWindow() {
               </div>
               {loading ? (
                 <div className="documents-message" role="status">
-                  기록을 불러오는 중입니다…
+                  Loading documents…
                 </div>
               ) : error ? (
                 <div className="documents-message" role="alert">
-                  <h2>기록을 불러오지 못했습니다.</h2>
-                  <p>연결 상태를 확인하고 다시 시도해 주세요.</p>
-                  <button onClick={() => setRevision((value) => value + 1)}>다시 시도</button>
+                  <h2>Unable to load documents.</h2>
+                  <p>Check your connection and try again.</p>
+                  <button onClick={() => setRevision((value) => value + 1)}>Retry</button>
                 </div>
               ) : filtered.length === 0 ? (
                 <div className="documents-message">
                   <FileText size={34} />
-                  <h2>{search ? '검색 결과가 없습니다.' : '아직 기록이 없습니다.'}</h2>
-                  <p>
-                    {search
-                      ? '다른 검색어로 찾아보세요.'
-                      : '새로운 이야기가 이곳에 차곡차곡 쌓일 예정입니다.'}
-                  </p>
+                  <h2>{search ? 'No matching documents.' : 'This folder is empty.'}</h2>
                 </div>
               ) : (
-                <ul className="documents-posts">
-                  {filtered.map((post) => (
-                    <li key={post._id}>
-                      <a href={blogPath({ kind: 'post', id: post._id })}>
-                        <span className="documents-paper">
-                          <FileText size={23} />
-                        </span>
-                        <div>
-                          <h3>{post.title}</h3>
-                          {post.excerpt && <p>{post.excerpt}</p>}
-                          <span>{folders.find((item) => item.id === post.category)?.name}</span>
-                        </div>
-                        <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
-                        <ChevronRight size={14} />
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+                <table className="documents-table" aria-label="Documents">
+                  <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col" className="documents-date-column">
+                        Date
+                      </th>
+                      <th scope="col" className="documents-folder-column">
+                        Folder
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filtered.map((post) => (
+                      <tr key={post._id}>
+                        <td>
+                          <a href={blogPath({ kind: 'post', id: post._id })}>
+                            <FileText size={16} />
+                            <span>{post.title}</span>
+                          </a>
+                        </td>
+                        <td className="documents-date-column">
+                          <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+                        </td>
+                        <td className="documents-folder-column">
+                          {folders.find((item) => item.id === post.category)?.name}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               )}
             </>
           )}
         </div>
       </div>
       <footer className="documents-status">
-        <span>{postId ? '문서' : `${filtered.length}개의 글`}</span>
+        <span>
+          {postId ? 'Document' : `${filtered.length} item${filtered.length === 1 ? '' : 's'}`}
+        </span>
         <span>My Documents</span>
       </footer>
     </section>

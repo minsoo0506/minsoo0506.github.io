@@ -1,6 +1,5 @@
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
-import { koKRLocale } from '@sanity/locale-ko-kr';
 import settings from '../src/data/blog-config.json';
 import { categories, post } from './schema/post';
 
@@ -9,17 +8,17 @@ if (!projectId)
   throw new Error('Set the Sanity project ID in src/data/blog-config.json before starting Studio.');
 export default defineConfig({
   name: 'minsoo-blog',
-  title: 'My Documents · 글쓰기',
+  title: 'My Documents · Write',
   projectId,
   dataset: process.env.SANITY_STUDIO_DATASET || settings.dataset,
   plugins: [
     structureTool({
-      title: '내 글',
+      title: 'My Posts',
       structure: (S) =>
         S.list()
           .title('My Documents')
           .items([
-            S.documentTypeListItem('blogPost').title('전체 글'),
+            S.documentTypeListItem('blogPost').title('All Posts'),
             S.divider(),
             ...categories.map((category) =>
               S.listItem()
@@ -37,7 +36,6 @@ export default defineConfig({
             ),
           ]),
     }),
-    koKRLocale(),
   ],
   schema: {
     types: [post],
@@ -45,7 +43,7 @@ export default defineConfig({
       ...previous,
       ...categories.map((category) => ({
         id: `post-${category.value}`,
-        title: `${category.title}에 글 쓰기`,
+        title: `New post in ${category.title}`,
         schemaType: 'blogPost',
         value: () => ({ category: category.value, publishedAt: new Date().toISOString() }),
       })),

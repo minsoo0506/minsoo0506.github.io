@@ -1,9 +1,9 @@
 import config from '../data/blog-config.json';
 
 export const folders = [
-  { id: 'retrospective', name: '회고', description: '경험을 돌아보고 남기는 기록' },
-  { id: 'knowledge', name: '지식 저장소', description: '배우고 발견한 것들을 모아두는 곳' },
-  { id: 'daily', name: '일상', description: '평범한 날들의 작은 이야기' },
+  { id: 'retrospective', name: 'Reflections' },
+  { id: 'knowledge', name: 'Knowledge Base' },
+  { id: 'daily', name: 'Daily Life' },
 ] as const;
 export type FolderId = (typeof folders)[number]['id'];
 export interface BlogPost {

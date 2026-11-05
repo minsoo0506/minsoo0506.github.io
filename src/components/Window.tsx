@@ -5,6 +5,7 @@ import { useIsDesktop } from '../hooks/use-is-desktop';
 interface WindowProps {
   title: string;
   explorer?: boolean;
+  media?: boolean;
   children: React.ReactNode;
   icon?: React.ReactNode;
   onClose: () => void;
@@ -14,6 +15,7 @@ interface WindowProps {
 export const Window: React.FC<WindowProps> = ({
   title,
   explorer = false,
+  media = false,
   children,
   icon,
   onClose,
@@ -40,7 +42,15 @@ export const Window: React.FC<WindowProps> = ({
             <X size={14} strokeWidth={3} />
           </button>
         </div>
-        <div className={explorer ? 'flex-1 min-h-0 overflow-hidden' : 'flex-1 overflow-auto p-4'}>
+        <div
+          className={
+            explorer
+              ? 'flex-1 min-h-0 overflow-hidden'
+              : media
+              ? 'flex-1 min-h-0 overflow-auto'
+              : 'flex-1 overflow-auto p-4'
+          }
+        >
           {children}
         </div>
       </div>
@@ -54,7 +64,11 @@ export const Window: React.FC<WindowProps> = ({
     <div
       ref={dragRef}
       className={`absolute flex flex-col rounded-t-[8px] rounded-b-[4px] overflow-hidden shadow-xp-window h-[75vh] max-w-full font-tahoma ${
-        explorer ? 'w-[min(940px,calc(100vw-130px))]' : 'w-1/2'
+        explorer
+          ? 'w-[min(940px,calc(100vw-130px))]'
+          : media
+          ? 'w-[min(900px,calc(100vw-150px))]'
+          : 'w-1/2'
       }`}
       style={{
         left: `${position.x}px`,
@@ -101,7 +115,7 @@ export const Window: React.FC<WindowProps> = ({
       <div className="flex-1 bg-[#ECE9D8] relative">
         {/* Inner Content Area Frame */}
         <div className="absolute inset-0 m-[3px] mt-0 bg-white border border-[#808080] shadow-[inset_1px_1px_0px_#404040] overflow-auto xp-window-content">
-          <div className={explorer ? 'h-full' : 'p-4 min-h-full'}>{children}</div>
+          <div className={explorer || media ? 'h-full' : 'p-4 min-h-full'}>{children}</div>
         </div>
       </div>
     </div>

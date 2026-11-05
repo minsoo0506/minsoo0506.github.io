@@ -168,6 +168,7 @@ function App() {
           >
             <Window
               explorer={window.id === 'documents'}
+              media={window.id === 'music'}
               title={window.title}
               icon={window.icon}
               onClose={() => closeWindow(window.id)}

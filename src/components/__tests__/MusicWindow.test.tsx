@@ -50,6 +50,24 @@ describe('MusicWindow', () => {
     view.unmount();
     expect(api.destroy).toHaveBeenCalledOnce();
   });
+  it('stops at the beginning, restores volume after muting, and toggles the playlist', () => {
+    mount();
+    act(() => events.onStateChange({ data: 1 }));
+    fireEvent.click(screen.getByRole('button', { name: 'Stop' }));
+    expect(api.pauseVideo).toHaveBeenCalled();
+    expect(api.seekTo).toHaveBeenCalledWith(0, true);
+    expect(screen.getByRole('button', { name: 'Play' })).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText('Volume'), { target: { value: '35' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Mute' }));
+    expect(api.setVolume).toHaveBeenLastCalledWith(0);
+    fireEvent.click(screen.getByRole('button', { name: 'Unmute' }));
+    expect(api.setVolume).toHaveBeenLastCalledWith(35);
+    fireEvent.click(screen.getByRole('button', { name: 'Hide playlist' }));
+    expect(screen.queryByRole('complementary', { name: 'Playlist' })).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Show playlist' }));
+    expect(screen.getByRole('complementary', { name: 'Playlist' })).toBeInTheDocument();
+    expect(api.destroy).not.toHaveBeenCalled();
+  });
   it('stops after the single song and provides a fallback on error', () => {
     mount();
     expect(screen.getAllByRole('listitem')).toHaveLength(1);

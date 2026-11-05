@@ -1,291 +1,507 @@
-/* Original CSS inspired by Windows Media Player 9's blue and silver chrome. */
-.wmp {
-  color: #163354;
-  font: 11px Tahoma, sans-serif;
-  border: 1px solid #65798e;
-  border-radius: 8px 8px 22px 8px;
-  overflow: hidden;
-  background: linear-gradient(120deg, #f5f8fd, #c1ccda 70%, #e4eaf2);
-  box-shadow: inset 0 0 0 1px white, 0 5px 16px #17385b33;
+/* Original CSS recreation of the WMP 8 full-mode blue skin.
+   Reference: https://betawiki.net/wiki/Windows_Media_Player_8
+   Visual cross-check: https://www.guidebookgallery.org/screenshots/winxppro */
+.wmp8 {
+  height: 100%;
+  min-height: 430px;
+  color: #fff;
+  background: #ece9d8;
+  font: 11px Tahoma, Arial, sans-serif;
+  padding: 8px 5px 6px;
   container-type: inline-size;
 }
-.wmp-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 9px 12px;
-  background: linear-gradient(#edf4fc, #b4c6de);
-  border-bottom: 1px solid #93a9c4;
-  font-size: 10px;
+.wmp8-shell {
+  height: 100%;
+  min-height: 410px;
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) 64px;
+  border-radius: 44px 9px 12px 10px;
+  background: linear-gradient(110deg, #6585c8, #5977b2 18%, #829fe0 50%, #4c69a5);
+  box-shadow: inset 2px 2px 2px #b2bbf3, inset -2px -2px 3px #35466c;
+  padding: 3px;
 }
-.wmp-toolbar > span:first-child {
+.wmp8-navigation {
+  position: relative;
   display: flex;
-  gap: 6px;
-  align-items: center;
+  flex-direction: column;
+  align-self: stretch;
+  padding: 39px 6px 9px 4px;
+  border-right: 2px ridge #97a8c9;
+  background: linear-gradient(90deg, #6478cd, #4e64b0 24%, #6080b9);
+  border-radius: 35px 0 0 5px;
 }
-.wmp-toolbar > span:last-child {
-  color: #536f92;
-  font-size: 9px;
-  letter-spacing: 2px;
-}
-.wmp-heading {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 18px 16px;
+.wmp8-navigation > span,
+.wmp8-navigation > button,
+.wmp8-current {
+  display: block;
+  padding: 8px 3px 6px;
+  text-align: left;
+  font-size: 11px;
+  line-height: 1.1;
+  font-weight: bold;
+  border-bottom: 1px solid #9caee0;
+  box-shadow: 0 1px #465e9e;
   color: white;
-  background: radial-gradient(ellipse at top left, #559ad9, #20518c 55%, #142c50);
-  border-bottom: 3px solid #a3bad4;
 }
-.wmp-heading h2 {
-  font-size: 21px;
-  font-weight: normal;
-  letter-spacing: -0.5px;
-  text-shadow: 1px 2px #102d50;
+.wmp8-navigation > span[aria-disabled] {
+  color: #d8e1f7;
+  cursor: default;
 }
-.wmp-heading p {
-  color: #bdd8f3;
+.wmp8-navigation > button:hover {
+  background: #2c50a4;
+}
+.wmp8-current {
+  background: linear-gradient(90deg, #1e3293, #4e71b6);
+  box-shadow: inset 0 1px 3px #071c67, 0 1px #a2b9f4;
+}
+.wmp8-windows-mark {
+  margin: auto auto 7px;
+  padding-top: 18px;
+  width: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  transform: skew(-12deg) rotate(9deg);
+  filter: drop-shadow(1px 2px 1px #304580);
+}
+.wmp8-windows-mark i {
+  width: 10px;
+  height: 10px;
+  background: linear-gradient(120deg, #f3842c, #d74624);
+}
+.wmp8-windows-mark i:nth-child(2) {
+  background: linear-gradient(120deg, #b9df64, #74a329);
+}
+.wmp8-windows-mark i:nth-child(3) {
+  background: linear-gradient(120deg, #6ab6f1, #205bcb);
+}
+.wmp8-windows-mark i:nth-child(4) {
+  background: linear-gradient(120deg, #fff3a3, #f6c02f);
+}
+.wmp8-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: #000;
+  border: 2px ridge #adb4c2;
+  border-radius: 3px 7px 14px 0;
+  overflow: hidden;
+}
+.wmp8-top-rail {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  flex-shrink: 0;
+  padding: 0 6px;
+  color: #26466c;
+  background: linear-gradient(#fdfdfd 0%, #d3d3dc 23%, #9698aa 56%, #c6c8d1 85%, #5c6177);
+  border-bottom: 1px solid #333a50;
+}
+.wmp8-rail-title {
   font-size: 10px;
-  margin-top: 2px;
+  text-shadow: 0 1px #ffffff90;
 }
-.wmp-orb {
+.wmp8-rail-emblem,
+.wmp8-top-rail button {
   display: grid;
   place-items: center;
-  width: 39px;
-  height: 39px;
+  width: 17px;
+  height: 17px;
   border-radius: 50%;
-  border: 2px solid #c3d8ec;
-  color: #f5a532;
-  background: radial-gradient(circle at 35% 20%, #fff, #b5c9dd 40%, #456789 75%);
-  box-shadow: 0 2px 4px #102e56, inset 0 0 4px white;
+  border: 1px solid #d4e8ff;
+  color: white;
+  background: radial-gradient(circle at 35% 25%, #409dff, #003599 60%, #001e63);
+  box-shadow: 1px 1px 1px #3f4866;
 }
-.wmp-count {
+.wmp8-top-rail button {
   margin-left: auto;
-  font-size: 9px;
-  letter-spacing: 1px;
-  color: #c4d8ee;
 }
-.wmp-body {
+.wmp8-stage {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 155px;
-  gap: 8px;
-  padding: 10px;
+  grid-template-columns: minmax(0, 1fr) 175px;
+  min-height: 0;
+  flex: 1;
 }
-.wmp-screen-column {
+.wmp8-stage[data-playlist='false'] {
+  grid-template-columns: minmax(0, 1fr);
+}
+.wmp8-screen-column {
   min-width: 0;
-  background: #070d18;
-  border: 1px solid #65788f;
-  box-shadow: 0 1px white;
-}
-.wmp-video {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  min-height: 200px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
   background: #000;
 }
-.wmp-video iframe {
+.wmp8-track-heading {
+  padding: 7px 7px 5px;
+  flex-shrink: 0;
+}
+.wmp8-track-heading span {
+  display: block;
+  font-size: 13px;
+  line-height: 1.3;
+}
+.wmp8-track-heading h2 {
+  font-size: 19px;
+  font-weight: normal;
+  line-height: 1.25;
+}
+.wmp8 .wmp-video {
+  position: relative;
+  min-height: 200px;
+  flex: 1;
+  width: 100%;
+  background: #000;
+}
+.wmp8 .wmp-video iframe {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
   min-height: 200px;
   border: 0;
 }
-.wmp-track-info {
-  min-height: 61px;
+.wmp8-video-caption {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-top: 1px solid #2a3545;
-  color: #eaf3ff;
-}
-.wmp-track-info strong {
-  display: block;
-  font-size: 12px;
-  font-weight: normal;
-}
-.wmp-track-info div > span {
-  display: block;
-  color: #91a9c5;
-  margin-top: 4px;
+  gap: 6px;
+  padding: 10px 7px;
+  min-height: 34px;
+  flex-shrink: 0;
   font-size: 10px;
+  font-weight: bold;
 }
-.wmp-led {
-  width: 5px;
-  height: 5px;
-  background: #63758b;
-  border-radius: 50%;
-}
-.wmp-led[data-playing='true'] {
-  background: #8bf6a8;
-  box-shadow: 0 0 6px #68f29d;
-}
-.wmp-time {
+.wmp8-video-caption > span:last-child {
   margin-left: auto;
-  font: 17px 'Courier New', monospace;
-  color: #a9d1f5;
+  font-weight: normal;
+  color: #a6a6a6;
 }
-.wmp-playlist {
+.wmp8-caption-dot {
+  width: 12px;
+  height: 12px;
+  border: 1px solid #c5c5d0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 20%, white, #a8a8ae 45%, #5b5d68);
+}
+.wmp8 .wmp-playlist {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  background: #edf3fa;
-  border: 1px solid #91a5bf;
+  border-left: 2px ridge #9b9ca8;
+  background: #000;
+}
+.wmp8-playlist-select {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin: 0 0 7px;
+  min-height: 25px;
+  padding: 3px 5px;
+  color: #1f2942;
+  background: linear-gradient(#e9f0fd, #a9bde4);
+  border: 1px solid #7c91c5;
   box-shadow: inset 0 1px white;
 }
-.wmp-list-heading {
-  display: flex;
-  justify-content: space-between;
-  padding: 9px 8px;
-  background: linear-gradient(#f7faff, #c9d7e9);
-  border-bottom: 1px solid #a9bdd5;
-  font-weight: bold;
+.wmp8-playlist-select > span:last-child {
+  margin-left: auto;
+  color: white;
+  background: #769bd6;
+  border: 1px solid white;
+  padding: 0 2px;
+}
+.wmp8-playlist-group {
+  padding: 1px 6px 6px;
   font-size: 10px;
+  color: #ddd;
 }
-.wmp-list-heading span {
-  color: #7186a0;
-}
-.wmp-playlist ol {
-  padding: 5px 3px;
+.wmp8 .wmp-playlist ol {
   list-style: none;
+  padding: 0 6px 0 14px;
 }
-.wmp-playlist button {
+.wmp8 .wmp-playlist li button {
   display: flex;
-  align-items: center;
-  gap: 9px;
+  gap: 7px;
   text-align: left;
   width: 100%;
-  padding: 10px 6px;
-  border: 1px solid transparent;
+  padding: 4px 0;
+  font-size: 10px;
+  color: #00ff00;
 }
-.wmp-playlist button[aria-current='true'] {
-  background: linear-gradient(#3879c2, #235491);
-  color: white;
-  border-color: #1b477e;
-  box-shadow: inset 0 1px #ffffff40;
+.wmp8 .wmp-playlist li button:hover {
+  text-decoration: underline;
 }
-.wmp-playlist button:hover:not(:disabled):not([aria-current='true']) {
-  background: #d5e4f5;
-}
-.wmp-number {
-  font: 10px 'Courier New', monospace;
-  opacity: 0.7;
-}
-.wmp-list-footer {
+.wmp8-total {
   margin-top: auto;
-  padding: 9px;
-  border-top: 1px solid #c1cede;
-  color: #5d7592;
-  font-size: 9px;
+  padding: 8px 5px 5px;
+  text-align: right;
+  font-size: 10px;
 }
-.wmp-controls {
-  padding: 3px 16px 13px;
-}
-.wmp-seek {
+.wmp8-readout {
   display: flex;
   align-items: center;
-  gap: 9px;
-  color: #516983;
-  font: 10px 'Courier New', monospace;
+  flex-shrink: 0;
+  gap: 12px;
+  padding: 3px 7px 3px 13px;
+  min-height: 21px;
+  border-top: 2px ridge #b5b3c1;
+  font-size: 10px;
+  font-weight: bold;
+  color: #00ff00;
 }
-.wmp input[type='range'] {
-  accent-color: #3172b3;
-  height: 18px;
+.wmp8-readout > svg {
+  color: #b9bbef;
+  flex-shrink: 0;
+}
+.wmp8-readout > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.wmp8-readout time {
+  margin-left: auto;
+  color: #00ff00;
+  font-variant-numeric: tabular-nums;
+}
+.wmp8 .wmp-error {
+  color: #e2c18b;
+  background: #191610;
+  padding: 5px 8px;
+  border-top: 1px solid #645134;
+  font-size: 10px;
+  line-height: 1.4;
+}
+.wmp8-bottom {
+  display: flex;
+  grid-column: 1 / -1;
+  padding-left: 84px;
+  background: linear-gradient(120deg, #657fbd, #8ea9e5 35%, #6783c3 65%, #b5bdcd);
+  border-radius: 0 0 10px 100px;
+}
+.wmp8-console {
+  flex: 1;
   min-width: 0;
-  cursor: pointer;
+  padding: 3px 19px 7px 24px;
+  border-radius: 0 0 60px 65px;
+  background: linear-gradient(#8ca5e0, #6886c8 40%, #8da7e7 80%, #516eaf);
+  box-shadow: inset 0 -2px #435c97, inset 0 -4px #b6c6ee;
 }
-.wmp-seek input {
+.wmp8-seek {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 17px;
+  padding-left: 55px;
+  color: #b8c6e7;
+  text-shadow: 0 1px #526fa9;
+  font-size: 11px;
+}
+.wmp8-seek input {
   flex: 1;
   width: 100%;
 }
-.wmp-buttons {
+.wmp8 input[type='range'] {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 5px;
+  border: 1px solid #5f738d;
+  border-radius: 3px;
+  background: linear-gradient(#a0a9b2, #72ff66 40%, #20c837 65%, #5e657c);
+  box-shadow: 0 1px #b8c7e9;
+  min-width: 0;
+  cursor: pointer;
+}
+.wmp8 input[type='range']::-webkit-slider-thumb {
+  appearance: none;
+  width: 9px;
+  height: 16px;
+  border: 1px solid #879db8;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #f8ffff, #b1c5e5 60%, #526c9c);
+  box-shadow: 1px 1px 2px #304d81;
+}
+.wmp8 input[type='range']::-moz-range-thumb {
+  width: 8px;
+  height: 14px;
+  border: 1px solid #879db8;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #f8ffff, #b1c5e5 60%, #526c9c);
+}
+.wmp8-buttons {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-top: 8px;
-  gap: 12px;
+  gap: 5px;
+  height: 32px;
 }
-.wmp-transport {
-  display: flex;
-  gap: 7px;
-  align-items: center;
-}
-.wmp-transport button {
+.wmp8-buttons button {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 28px;
-  border-radius: 14px;
-  border: 1px solid #7c92ac;
-  color: #295d92;
-  background: linear-gradient(#fff, #e0e7ef 45%, #a6b8cc 50%, #edf3f8);
-  box-shadow: inset 0 0 0 1px #ffffffb0, 0 2px 2px #52677d40;
+  flex-shrink: 0;
+  width: 24px;
+  height: 17px;
+  border: 1px solid #7593bf;
+  border-radius: 10px;
+  color: #143278;
+  background: linear-gradient(#fff 0%, #d6e7ff 40%, #c4d7f4 55%, #7f9aca 90%);
+  box-shadow: inset 0 1px white, 0 1px 1px #3d5593;
 }
-.wmp-transport .wmp-play {
-  width: 47px;
-  height: 47px;
+.wmp8-buttons button:active:not(:disabled) {
+  background: linear-gradient(#7f9aca, #c4d7f4);
+  box-shadow: inset 0 1px 2px #254171;
+}
+.wmp8-buttons .wmp8-play {
+  width: 39px;
+  height: 39px;
   border-radius: 50%;
-  color: #fff;
-  border: 3px solid #e4edf5;
-  outline: 1px solid #8ba0b6;
-  background: radial-gradient(circle at 40% 10%, #85c8ef, #377fbd 48%, #184b82 55%, #3276aa);
+  border: 2px solid #7699d1;
+  background: radial-gradient(circle at 45% 20%, white, #d3e6ff 40%, #92b1e6 72%, #3155a1);
+  box-shadow: 0 1px 2px #234585, inset 0 1px 1px white;
+  margin-top: -8px;
 }
-.wmp button:active:not(:disabled) {
-  filter: brightness(0.88);
-  transform: translateY(1px);
+.wmp8-buttons .wmp8-stop {
+  width: 19px;
+  height: 27px;
+  border-radius: 50%;
 }
-.wmp button:disabled {
-  opacity: 0.5;
+.wmp8-buttons .wmp8-mute {
+  margin-left: 3px;
+}
+.wmp8-volume {
+  width: 57px;
+}
+.wmp8 button:disabled,
+.wmp8 input:disabled {
+  opacity: 0.45;
   cursor: default;
 }
-.wmp :focus-visible {
-  outline: 2px solid #f3a839;
-  outline-offset: 2px;
-}
-.wmp-volume {
+.wmp8-metal-footer {
   display: flex;
-  gap: 7px;
   align-items: center;
-}
-.wmp-volume input {
-  width: 80px;
-}
-.wmp-status {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 8px 14px;
-  border-top: 1px solid #9cadc1;
-  background: #d4deea;
-  color: #48617f;
+  align-self: flex-start;
+  flex: 0 1 34%;
+  height: 30px;
+  gap: 6px;
+  padding: 0 7px;
+  border-radius: 4px 0 6px 10px;
+  color: #62687b;
+  border: 1px solid #9c9ca9;
+  background: linear-gradient(#fff, #e3e3e8 22%, #9798a6 60%, #b7b7c1 85%, #f2f2f8);
+  box-shadow: inset 1px 0 white, 0 1px 1px #4d5679;
   font-size: 9px;
 }
-.wmp-status a {
+.wmp8-metal-footer a {
+  text-shadow: 0 1px #e2e3ef;
   text-decoration: underline;
+  white-space: nowrap;
 }
-.wmp-error {
-  padding: 9px 12px;
-  margin: 0 10px 8px;
-  color: #743c15;
-  background: #fff2d7;
-  border: 1px solid #dfbd7b;
+.wmp8-grip {
+  margin-left: auto;
+  color: #7b7d89;
+  align-self: end;
 }
-@container (max-width: 520px) {
-  .wmp-body {
+.wmp8 :focus-visible {
+  outline: 2px solid #ffda75;
+  outline-offset: 2px;
+}
+@container (max-width: 620px) {
+  .wmp8-stage {
+    grid-template-columns: minmax(0, 1fr) 130px;
+  }
+  .wmp8-bottom {
+    padding-left: 45px;
+  }
+  .wmp8-console {
+    padding-left: 18px;
+    padding-right: 13px;
+  }
+  .wmp8-metal-footer {
+    flex-basis: 20%;
+  }
+  .wmp8-metal-footer > svg {
+    display: none;
+  }
+}
+@container (max-width: 480px) {
+  .wmp8-shell {
+    grid-template-columns: 64px minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) 88px;
+    min-height: 515px;
+  }
+  .wmp8-navigation {
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+  .wmp8-navigation > span,
+  .wmp8-navigation > button,
+  .wmp8-current {
+    font-size: 10px;
+  }
+  .wmp8-stage {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(250px, 1fr) auto;
   }
-  .wmp-playlist button {
-    padding: 8px;
+  .wmp8-stage[data-playlist='false'] {
+    grid-template-rows: minmax(250px, 1fr);
   }
-  .wmp-list-footer {
+  .wmp8 .wmp-playlist {
+    border-left: 0;
+    border-top: 2px ridge #9b9ca8;
+  }
+  .wmp8-playlist-select {
+    min-height: 20px;
+    padding: 1px 4px;
+    margin-bottom: 2px;
+  }
+  .wmp8-playlist-group {
     display: none;
   }
-  .wmp-count {
-    display: none;
+  .wmp8 .wmp-playlist ol {
+    padding-left: 10px;
   }
-}
-@media (prefers-reduced-motion: reduce) {
-  .wmp * {
-    scroll-behavior: auto;
+  .wmp8-total {
+    padding: 3px 6px;
+    font-size: 9px;
+  }
+  .wmp8-top-rail {
+    gap: 4px;
+  }
+  .wmp8-rail-title {
+    font-size: 9px;
+  }
+  .wmp8-track-heading h2 {
+    font-size: 17px;
+  }
+  .wmp8-video-caption {
+    min-height: 25px;
+    padding: 5px 7px;
+  }
+  .wmp8-bottom {
+    padding-left: 35px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    border-radius: 0 0 10px 60px;
+  }
+  .wmp8-console {
+    flex-basis: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .wmp8-metal-footer {
+    margin-left: auto;
+    height: 22px;
+    flex-basis: 62%;
+  }
+  .wmp8-buttons {
+    justify-content: center;
+  }
+  .wmp8-seek {
+    padding-left: 44px;
+  }
+  .wmp8-readout {
+    gap: 5px;
+    padding-left: 4px;
   }
 }

@@ -1,5 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { Music, Pause, Play, SkipBack, SkipForward, Volume2 } from 'lucide-react';
+import {
+  ListMusic,
+  Pause,
+  Play,
+  SkipBack,
+  SkipForward,
+  Square,
+  Volume2,
+  VolumeX,
+} from 'lucide-react';
 import './music-window.css';
 
 const tracks = [{ id: 'CYxcQILXXlg', title: 'Alonica (Live)', artist: 'LANY' }];
@@ -45,6 +54,8 @@ export function MusicWindow() {
   const [volume, setVolume] = useState(70);
   const [elapsed, setElapsed] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [showPlaylist, setShowPlaylist] = useState(true);
+  const previousVolume = useRef(70);
 
   const selectTrack = (next: number) => {
     if (!player.current || !ready) return;
@@ -131,140 +142,230 @@ export function MusicWindow() {
   }, []);
 
   const track = tracks[index];
+  const togglePlayback = () =>
+    playing ? player.current?.pauseVideo() : player.current?.playVideo();
+  const stopPlayback = () => {
+    player.current?.pauseVideo();
+    player.current?.seekTo(0, true);
+    setElapsed(0);
+    setPlaying(false);
+  };
+  const toggleMute = () => {
+    const next = volume ? 0 : previousVolume.current || 70;
+    if (volume) previousVolume.current = volume;
+    setVolume(next);
+    player.current?.setVolume(next);
+  };
   return (
-    <section className="wmp" aria-label="My Music player">
-      <div className="wmp-toolbar">
-        <span>
-          <Music size={16} /> Windows Media Player
-        </span>
-        <span>9 SERIES</span>
-      </div>
-      <div className="wmp-heading">
-        <span className="wmp-orb">
-          <Play size={19} fill="currentColor" />
-        </span>
-        <div>
-          <h2>Now Playing</h2>
-          <p>My Music</p>
-        </div>
-        <span className="wmp-count">
-          {String(tracks.length).padStart(2, '0')} {tracks.length === 1 ? 'TRACK' : 'TRACKS'}
-        </span>
-      </div>
-      <div className="wmp-body">
-        <div className="wmp-screen-column">
-          <div className="wmp-video" ref={host} />
-          <div className="wmp-track-info">
-            <span className="wmp-led" data-playing={playing} />
-            <div>
-              <strong>{track.title}</strong>
-              <span>{track.artist}</span>
-            </div>
-            <span className="wmp-time">{formatTime(elapsed)}</span>
+    <section className="wmp wmp8" aria-label="My Music player">
+      <div className="wmp8-shell">
+        <aside className="wmp8-navigation" aria-label="Player navigation">
+          <div className="wmp8-current">
+            Now
+            <br />
+            Playing
           </div>
-        </div>
-        <aside className="wmp-playlist" aria-label="Playlist">
-          <div className="wmp-list-heading">
-            Now Playing List <span>{tracks.length}</span>
-          </div>
-          <ol>
-            {tracks.map((item, number) => (
-              <li key={item.id}>
-                <button
-                  disabled={!ready}
-                  aria-current={index === number ? 'true' : undefined}
-                  onClick={() => selectTrack(number)}
-                >
-                  <span className="wmp-number">
-                    {index === number && playing ? '▶' : `0${number + 1}`}
-                  </span>
-                  <span>{item.title}</span>
-                </button>
-              </li>
-            ))}
-          </ol>
-          <div className="wmp-list-footer">
-            My Music · {tracks.length} {tracks.length === 1 ? 'track' : 'tracks'}
+          <span aria-disabled="true">
+            Media
+            <br />
+            Guide
+          </span>
+          <span aria-disabled="true">
+            Copy
+            <br />
+            from CD
+          </span>
+          <button
+            aria-pressed={showPlaylist}
+            onClick={() => setShowPlaylist((visible) => !visible)}
+          >
+            Media
+            <br />
+            Library
+          </button>
+          <span aria-disabled="true">
+            Radio
+            <br />
+            Tuner
+          </span>
+          <span aria-disabled="true">
+            Copy to CD
+            <br />
+            or Device
+          </span>
+          <span aria-disabled="true">
+            Skin
+            <br />
+            Chooser
+          </span>
+          <div className="wmp8-windows-mark" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+            <i />
           </div>
         </aside>
-      </div>
-      {error && (
-        <div className="wmp-error" role="alert">
-          {error}
-        </div>
-      )}
-      <div className="wmp-controls">
-        <div className="wmp-seek">
-          <span>{formatTime(elapsed)}</span>
-          <input
-            aria-label="Playback position"
-            type="range"
-            min="0"
-            max={duration || 1}
-            value={Math.min(elapsed, duration || 1)}
-            disabled={!ready || !duration}
-            onChange={(event) => {
-              const value = Number(event.target.value);
-              setElapsed(value);
-              player.current?.seekTo(value, true);
-            }}
-          />
-          <span>{formatTime(duration)}</span>
-        </div>
-        <div className="wmp-buttons">
-          <div className="wmp-transport">
+        <div className="wmp8-main">
+          <div className="wmp8-top-rail">
+            <span className="wmp8-rail-emblem" aria-hidden="true">
+              ◆
+            </span>
+            <span className="wmp8-rail-title">Windows Media Player</span>
             <button
-              aria-label="Previous track"
-              disabled={!ready || index === 0}
-              onClick={() => selectTrack(index - 1)}
+              aria-label={showPlaylist ? 'Hide playlist' : 'Show playlist'}
+              aria-pressed={showPlaylist}
+              onClick={() => setShowPlaylist((visible) => !visible)}
             >
-              <SkipBack size={17} fill="currentColor" />
-            </button>
-            <button
-              className="wmp-play"
-              aria-label={playing ? 'Pause' : 'Play'}
-              disabled={!ready}
-              onClick={() => (playing ? player.current?.pauseVideo() : player.current?.playVideo())}
-            >
-              {playing ? (
-                <Pause size={23} fill="currentColor" />
-              ) : (
-                <Play size={23} fill="currentColor" />
-              )}
-            </button>
-            <button
-              aria-label="Next track"
-              disabled={!ready || index === tracks.length - 1}
-              onClick={() => selectTrack(index + 1)}
-            >
-              <SkipForward size={17} fill="currentColor" />
+              <ListMusic size={12} />
             </button>
           </div>
-          <label className="wmp-volume">
-            <Volume2 size={17} />
-            <input
-              aria-label="Volume"
-              type="range"
-              min="0"
-              max="100"
-              value={volume}
-              disabled={!ready}
-              onChange={(event) => {
-                const value = Number(event.target.value);
-                setVolume(value);
-                player.current?.setVolume(value);
-              }}
-            />
-          </label>
+          <div className="wmp8-stage" data-playlist={showPlaylist}>
+            <div className="wmp8-screen-column">
+              <header className="wmp8-track-heading">
+                <span>{track.artist}</span>
+                <h2>{track.title}</h2>
+              </header>
+              <div className="wmp-video" ref={host} />
+              <div className="wmp8-video-caption">
+                <span className="wmp8-caption-dot" />
+                Now Playing<span>{track.artist}</span>
+              </div>
+            </div>
+            {showPlaylist && (
+              <aside className="wmp-playlist" aria-label="Playlist">
+                <div className="wmp8-playlist-select">
+                  <ListMusic size={14} />
+                  <span>My Playlist</span>
+                  <span aria-hidden="true">▾</span>
+                </div>
+                <div className="wmp8-playlist-group">− &nbsp; {track.artist}</div>
+                <ol>
+                  {tracks.map((item, number) => (
+                    <li key={item.id}>
+                      <button
+                        disabled={!ready}
+                        aria-current={index === number ? 'true' : undefined}
+                        onClick={() => selectTrack(number)}
+                      >
+                        <span aria-hidden="true">{index === number && playing ? '▸' : '•'}</span>
+                        <span>{item.title}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ol>
+                <div className="wmp8-total">Total Time: {formatTime(duration)}</div>
+              </aside>
+            )}
+          </div>
+          {error && (
+            <div className="wmp-error" role="alert">
+              {error}
+            </div>
+          )}
+          <div className="wmp8-readout">
+            <Play size={12} fill="currentColor" />
+            <span>
+              {error
+                ? 'Playback unavailable'
+                : !ready
+                ? 'Connecting…'
+                : `${playing ? 'Playing' : 'Song'}: ${track.title}`}
+            </span>
+            <time>{formatTime(elapsed)}</time>
+          </div>
         </div>
-      </div>
-      <div className="wmp-status">
-        <span aria-live="polite">
-          {error ? 'Playback unavailable' : !ready ? 'Connecting…' : playing ? 'Playing' : 'Ready'}
-        </span>
-        <a href={`https://www.youtube.com/watch?v=${track.id}`} target="_blank" rel="noreferrer">
-          Open in YouTube ↗
-        </a>
+        <div className="wmp8-bottom">
+          <div className="wmp8-console">
+            <div className="wmp8-seek">
+              <span aria-hidden="true">◂◂</span>
+              <input
+                aria-label="Playback position"
+                type="range"
+                min="0"
+                max={duration || 1}
+                value={Math.min(elapsed, duration || 1)}
+                disabled={!ready || !duration}
+                onChange={(event) => {
+                  const value = Number(event.target.value);
+                  setElapsed(value);
+                  player.current?.seekTo(value, true);
+                }}
+              />
+              <span aria-hidden="true">▸▸</span>
+            </div>
+            <div className="wmp8-buttons">
+              <button
+                className="wmp8-play"
+                aria-label={playing ? 'Pause' : 'Play'}
+                disabled={!ready}
+                onClick={togglePlayback}
+              >
+                {playing ? (
+                  <Pause size={19} fill="currentColor" />
+                ) : (
+                  <Play size={19} fill="currentColor" />
+                )}
+              </button>
+              <button
+                className="wmp8-stop"
+                aria-label="Stop"
+                disabled={!ready}
+                onClick={stopPlayback}
+              >
+                <Square size={9} fill="currentColor" />
+              </button>
+              <button
+                aria-label="Previous track"
+                disabled={!ready || index === 0}
+                onClick={() => selectTrack(index - 1)}
+              >
+                <SkipBack size={13} fill="currentColor" />
+              </button>
+              <button
+                aria-label="Next track"
+                disabled={!ready || index === tracks.length - 1}
+                onClick={() => selectTrack(index + 1)}
+              >
+                <SkipForward size={13} fill="currentColor" />
+              </button>
+              <button
+                className="wmp8-mute"
+                aria-label={volume ? 'Mute' : 'Unmute'}
+                disabled={!ready}
+                onClick={toggleMute}
+              >
+                {volume ? <Volume2 size={13} /> : <VolumeX size={13} />}
+              </button>
+              <input
+                className="wmp8-volume"
+                aria-label="Volume"
+                type="range"
+                min="0"
+                max="100"
+                value={volume}
+                disabled={!ready}
+                onChange={(event) => {
+                  const value = Number(event.target.value);
+                  setVolume(value);
+                  player.current?.setVolume(value);
+                }}
+              />
+            </div>
+          </div>
+          <div className="wmp8-metal-footer">
+            <ListMusic size={16} />
+            <a
+              href={`https://www.youtube.com/watch?v=${track.id}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open in YouTube ↗
+            </a>
+            <span aria-hidden="true" className="wmp8-grip">
+              ⠿
+            </span>
+          </div>
+        </div>
       </div>
     </section>
   );

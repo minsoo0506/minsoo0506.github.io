@@ -57,25 +57,28 @@ describe('My Documents', () => {
   it('filters folder contents, searches titles, and opens an article using its shareable address', async () => {
     render(<DocumentsWindow />);
     await screen.findByRole('link', { name: /첫 프로젝트 회고/ });
+    expect(screen.getByRole('table', { name: 'Documents' })).toBeInTheDocument();
     expect(
       screen
         .getAllByRole('link')
         .filter((link) => link.getAttribute('href')?.startsWith('#/documents/post/'))
     ).toHaveLength(3);
     fireEvent.click(
-      within(screen.getByRole('navigation', { name: '폴더' })).getByRole('button', { name: '회고' })
+      within(screen.getByRole('navigation', { name: 'Folders' })).getByRole('button', {
+        name: 'Reflections',
+      })
     );
     await waitFor(() =>
       expect(screen.queryByRole('link', { name: /주말 산책/ })).not.toBeInTheDocument()
     );
-    fireEvent.change(screen.getByRole('searchbox', { name: '글 검색' }), {
+    fireEvent.change(screen.getByRole('searchbox', { name: 'Search documents' }), {
       target: { value: '없는 제목' },
     });
-    expect(screen.getByText('검색 결과가 없습니다.')).toBeInTheDocument();
+    expect(screen.getByText('No matching documents.')).toBeInTheDocument();
     route('#/documents/post/post-one');
     expect(await screen.findByText('본문을 읽을 수 있습니다.')).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 1, name: '첫 프로젝트 회고' })).toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: '목록으로' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Back to list' }));
     expect(window.location.hash).toBe('#/documents/retrospective');
   });
   it('opens a direct article link without requiring the list request to succeed', async () => {
@@ -89,13 +92,13 @@ describe('My Documents', () => {
   it('shows an empty folder without inventing public posts', async () => {
     fetchMock.mockResolvedValue(response([]));
     render(<DocumentsWindow />);
-    expect(await screen.findByText('아직 기록이 없습니다.')).toBeInTheDocument();
+    expect(await screen.findByText('This folder is empty.')).toBeInTheDocument();
   });
   it('retries a failed request and shows the recovered posts', async () => {
     fetchMock.mockResolvedValueOnce({ ok: false });
     render(<DocumentsWindow />);
     await screen.findByRole('alert');
-    fireEvent.click(screen.getByRole('button', { name: '다시 시도' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Retry' }));
     expect(await screen.findByRole('link', { name: /주말 산책/ })).toBeInTheDocument();
   });
   it('handles missing or unpublished article links', async () => {
@@ -104,7 +107,7 @@ describe('My Documents', () => {
       response(url.searchParams.has('$id') ? null : posts)
     );
     render(<DocumentsWindow />);
-    expect(await screen.findByText('글을 찾을 수 없습니다.')).toBeInTheDocument();
+    expect(await screen.findByText('Document not found.')).toBeInTheDocument();
   });
 });
 describe('public Sanity queries', () => {
