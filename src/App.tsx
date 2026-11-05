@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { DocumentsWindow } from './components/windows/DocumentsWindow';
+import { CommandPromptWindow } from './components/windows/CommandPromptWindow';
 import { Music } from 'lucide-react';
 import { MusicWindow } from './components/windows/MusicWindow';
 import { Window } from './components/Window';
@@ -90,6 +91,12 @@ function App() {
         component: <MusicWindow />,
         position: { x: 120, y: 45 },
       },
+      terminal: {
+        title: 'Command Prompt',
+        icon: <img src="images/command-prompt.svg" alt="" className="w-4 h-4" />,
+        component: <CommandPromptWindow onClose={() => closeWindow('terminal')} />,
+        position: { x: 100, y: 75 },
+      },
       contact: {
         title: 'Contact',
         icon: <img src="images/phone.ico" alt="Contact" className="w-4 h-4" />,
@@ -109,10 +116,8 @@ function App() {
     if (id === 'documents' && window.location.hash.startsWith('#/documents')) {
       window.history.replaceState(null, '', window.location.pathname + window.location.search);
     }
-    setOpenWindows(openWindows.filter((w) => w.id !== id));
-    if (activeWindow === id) {
-      setActiveWindow(openWindows.length > 1 ? openWindows[openWindows.length - 2].id : null);
-    }
+    setOpenWindows((current) => current.filter((w) => w.id !== id));
+    setActiveWindow((current) => (current === id ? null : current));
   };
 
   const handleWindowClick = (id: string) => {
@@ -169,6 +174,7 @@ function App() {
             <Window
               explorer={window.id === 'documents'}
               media={window.id === 'music'}
+              terminal={window.id === 'terminal'}
               title={window.title}
               icon={window.icon}
               onClose={() => closeWindow(window.id)}

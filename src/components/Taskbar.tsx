@@ -64,6 +64,12 @@ export const Taskbar: React.FC<TaskbarProps> = ({
       subtitle: 'Get in touch',
       icon: <img src="images/phone.ico" alt="Contact" className="w-8 h-8" />,
     },
+    {
+      id: 'terminal',
+      label: 'Command Prompt',
+      subtitle: 'Terminal',
+      icon: <img src="images/command-prompt.svg" alt="" className="w-8 h-8" />,
+    },
   ];
 
   const handleMenuItemClick = (id: string) => {

@@ -198,12 +198,7 @@ export function MusicWindow() {
             <br />
             Chooser
           </span>
-          <div className="wmp8-windows-mark" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-            <i />
-          </div>
+          <img className="wmp8-windows-mark" src="images/windows-classic-flag.svg" alt="Windows" />
         </aside>
         <div className="wmp8-main">
           <div className="wmp8-top-rail">
