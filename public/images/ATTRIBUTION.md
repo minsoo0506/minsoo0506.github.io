@@ -6,3 +6,6 @@ Used to identify the historical Windows theme.
 
 Command Prompt icon: project-created SVG inspired by the Windows XP console icon.
 Console appearance reference: https://mwultong.blogspot.com/2007/11/cmd-xp-windows-xp-cmdexe.html
+
+Internet Explorer logo: Microsoft, https://commons.wikimedia.org/wiki/File:Internet_Explorer_4_and_5_logo.svg
+Windows XP-style flag: https://commons.wikimedia.org/wiki/File:Unofficial_Windows_logo_variant_-_2002%E2%80%932012_(Multicolored).svg

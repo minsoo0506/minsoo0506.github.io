@@ -22,6 +22,8 @@ export const Taskbar: React.FC<TaskbarProps> = ({
   onStartMenuClick,
 }) => {
   const [showStartMenu, setShowStartMenu] = useState(false);
+  const [programs, setPrograms] = useState(false);
+  const [games, setGames] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -76,6 +78,8 @@ export const Taskbar: React.FC<TaskbarProps> = ({
   const handleMenuItemClick = (id: string) => {
     onStartMenuClick(id);
     setShowStartMenu(false);
+    setPrograms(false);
+    setGames(false);
   };
 
   return (
@@ -94,20 +98,20 @@ export const Taskbar: React.FC<TaskbarProps> = ({
           <button
             onClick={() => setShowStartMenu(!showStartMenu)}
             className={`
-              relative h-[24px] rounded-r-[5px] rounded-tl-[5px] rounded-bl-[8px] flex items-center pl-1 pr-4 gap-1
-              font-bold text-white italic text-[13px] shadow-lg transition-all duration-100
+              relative h-[30px] rounded-r-[10px] rounded-tl-[3px] rounded-bl-[3px] flex items-center pl-1 pr-5 gap-1
+              font-bold text-white italic text-[16px] shadow-lg transition-all duration-100
               ${showStartMenu ? 'brightness-90 translate-y-[1px]' : 'hover:brightness-110'}
             `}
             style={{
               background:
-                'linear-gradient(to bottom, #388E3C 0%, #81C784 10%, #388E3C 15%, #2E7D32 90%, #1B5E20 100%)',
+                'linear-gradient(to bottom, #66b966 0%, #3b9d3f 12%, #2c8d2e 42%, #18811b 80%, #08640c 100%)',
               boxShadow: showStartMenu
                 ? 'inset 2px 2px 2px rgba(0,0,0,0.4)'
                 : 'inset 1px 1px 0 rgba(255,255,255,0.4), 1px 1px 2px rgba(0,0,0,0.5)',
             }}
           >
             <img
-              src="images/windows-classic-flag.svg"
+              src="images/windows-xp-flag.svg"
               onError={(e) => (e.currentTarget.style.display = 'none')}
               className="w-5 h-5 drop-shadow-[1px_1px_1px_rgba(0,0,0,0.4)]"
               alt=""
@@ -177,7 +181,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
             onClick={() => setShowStartMenu(false)}
           />
           <div
-            className="fixed bottom-[32px] left-0 w-[380px] max-w-full z-[70] flex flex-col rounded-t-[5px] overflow-hidden animate-in slide-in-from-bottom-2 duration-100"
+            className="fixed bottom-[32px] left-0 w-[380px] max-w-full max-h-[calc(100vh-32px)] overflow-y-auto z-[70] flex flex-col rounded-t-[5px] animate-in slide-in-from-bottom-2 duration-100"
             style={{
               boxShadow: '4px 4px 10px rgba(0,0,0,0.5)',
               border: '1px solid #003399',
@@ -207,25 +211,65 @@ export const Taskbar: React.FC<TaskbarProps> = ({
             <div className="flex bg-white border-x-2 border-[#245EDC]">
               {/* Left Column (White) */}
               <div className="w-[50%] py-2 flex flex-col gap-1 pl-1">
-                {menuItems.map((item) => (
+                {[
+                  {
+                    id: 'internet',
+                    label: 'Internet',
+                    subtitle: 'Internet Explorer',
+                    icon: <img src="images/internet-explorer.svg" alt="" className="w-8 h-8" />,
+                  },
+                  ...menuItems.filter((item) => item.id === 'contact'),
+                ].map((item) => (
                   <button
                     key={item.id}
                     onClick={() => handleMenuItemClick(item.id)}
-                    className="w-full text-left px-2 py-2 flex items-center gap-3 hover:bg-[#2F71CD] hover:text-white group transition-colors rounded-[3px]"
+                    className="w-full text-left px-2 py-2 flex items-center gap-3 hover:bg-[#2F71CD] hover:text-white group"
                   >
-                    <div className="w-8 h-8 shrink-0">{item.icon}</div>
-                    <div className="flex flex-col">
-                      <span className="font-bold text-[11px] text-[#333] group-hover:text-white">
-                        {item.label}
-                      </span>
-                      <span className="text-[9px] text-gray-500 group-hover:text-white/80">
+                    {item.icon}
+                    <span className="flex flex-col">
+                      <strong className="text-[11px]">{item.label}</strong>
+                      <span className="text-[9px] text-gray-500 group-hover:text-white">
                         {item.subtitle}
                       </span>
-                    </div>
+                    </span>
                   </button>
                 ))}
-
-                <div className="h-[1px] bg-gradient-to-r from-transparent via-[#dcdcdc] to-transparent my-1 mx-2"></div>
+                <div className="flex-1 min-h-[80px]" />
+                {programs && (
+                  <div className="mx-1 border border-[#245edc] bg-white text-[11px] shadow-md">
+                    {menuItems
+                      .filter((item) => item.id !== 'contact')
+                      .map((item) => (
+                        <button
+                          key={item.id}
+                          onClick={() => handleMenuItemClick(item.id)}
+                          className="block w-full text-left p-1 hover:bg-[#2F71CD] hover:text-white"
+                        >
+                          {item.label}
+                        </button>
+                      ))}
+                    <button
+                      onClick={() => setGames(!games)}
+                      className="block w-full text-left p-1 hover:bg-[#2F71CD] hover:text-white"
+                    >
+                      📁 Games ▸
+                    </button>
+                    {games && (
+                      <button
+                        onClick={() => handleMenuItemClick('pinball')}
+                        className="block w-full text-left pl-5 py-1 hover:bg-[#2F71CD] hover:text-white"
+                      >
+                        3D Pinball
+                      </button>
+                    )}
+                  </div>
+                )}
+                <button
+                  onClick={() => setPrograms(!programs)}
+                  className="border-t border-gray-300 py-2 text-[11px] font-bold hover:bg-[#2F71CD] hover:text-white"
+                >
+                  All Programs <span className="text-green-600">▶</span>
+                </button>
               </div>
 
               {/* Right Column (Blue) */}
@@ -234,11 +278,13 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                   onClick={() => handleMenuItemClick('documents')}
                   className="w-full text-left px-3 py-1.5 flex items-center gap-2 hover:bg-[#2F71CD] hover:text-white group rounded-[3px]"
                 >
+                  <img src="images/folder.ico" alt="" className="w-6 h-6" />
                   <span className="text-[11px] font-bold text-[#00136B] group-hover:text-white">
                     My Documents
                   </span>
                 </button>
                 <button className="w-full text-left px-3 py-1.5 flex items-center gap-2 hover:bg-[#2F71CD] hover:text-white group rounded-[3px]">
+                  <img src="images/folder.ico" alt="" className="w-6 h-6" />
                   <span className="text-[11px] font-bold text-[#00136B] group-hover:text-white">
                     My Pictures
                   </span>
@@ -247,11 +293,25 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                   onClick={() => handleMenuItemClick('music')}
                   className="w-full text-left px-3 py-1.5 flex items-center gap-2 hover:bg-[#2F71CD] hover:text-white group rounded-[3px]"
                 >
+                  <img src="images/folder.ico" alt="" className="w-6 h-6" />
                   <span className="text-[11px] font-bold text-[#00136B] group-hover:text-white">
                     My Music
                   </span>
                 </button>
 
+                <div className="h-px bg-[#95BDE7] mx-2 my-1" />
+                {menuItems
+                  .filter((item) => item.id !== 'contact')
+                  .map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => handleMenuItemClick(item.id)}
+                      className="w-full text-left px-3 py-1 flex items-center gap-2 hover:bg-[#2F71CD] hover:text-white text-[11px] font-bold text-[#00136B]"
+                    >
+                      {item.icon}
+                      <span>{item.label}</span>
+                    </button>
+                  ))}
                 <div className="flex-1"></div>
 
                 <div className="h-[1px] bg-[#95BDE7] opacity-50 my-1 mx-2"></div>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { DocumentsWindow } from './components/windows/DocumentsWindow';
 import { CommandPromptWindow } from './components/windows/CommandPromptWindow';
 import { Music } from 'lucide-react';
+import { InternetWindow } from './components/windows/InternetWindow';
 import { MusicWindow } from './components/windows/MusicWindow';
 import { Window } from './components/Window';
 import { Taskbar } from './components/Taskbar';
@@ -62,6 +63,25 @@ function App() {
 
     const windowConfigs: Record<string, Omit<OpenWindow, 'id'>> = {
       documents: documentsConfig,
+      internet: {
+        title: 'Internet Explorer',
+        icon: <img src="images/internet-explorer.svg" alt="" className="w-4 h-4" />,
+        component: <InternetWindow />,
+        position: { x: 100, y: 45 },
+      },
+      pinball: {
+        title: '3D Pinball for Windows — Space Cadet',
+        icon: <img src="images/help.ico" alt="" className="w-4 h-4" />,
+        component: (
+          <iframe
+            title="3D Pinball"
+            src="https://lrusso.github.io/3DPinballSpaceCadet/3DPinballSpaceCadet.htm"
+            className="w-full h-full border-0 bg-black"
+            allow="autoplay; fullscreen"
+          />
+        ),
+        position: { x: 100, y: 45 },
+      },
       about: {
         title: 'About Me',
         icon: <img src="images/mypc.ico" alt="About Me" className="w-4 h-4" />,
@@ -172,7 +192,7 @@ function App() {
             className="pointer-events-auto"
           >
             <Window
-              explorer={window.id === 'documents'}
+              explorer={['documents', 'internet', 'pinball'].includes(window.id)}
               media={window.id === 'music'}
               terminal={window.id === 'terminal'}
               title={window.title}
