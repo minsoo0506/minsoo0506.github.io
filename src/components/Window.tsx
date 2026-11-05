@@ -29,7 +29,7 @@ export const Window: React.FC<WindowProps> = ({
   // Mobile/Tablet View (Simplified but themed)
   if (isDesktop === false) {
     return (
-      <div className="fixed inset-0 bottom-[30px] z-50 bg-[#ECE9D8] flex flex-col font-tahoma">
+      <div className="fixed inset-0 bottom-[32px] z-50 bg-[#ECE9D8] flex flex-col font-tahoma">
         {/* Mobile Title Bar */}
         <div className="h-[30px] flex items-center justify-between px-2 select-none shadow-md bg-gradient-to-b from-[#0058E6] via-[#3A8CFF] to-[#0058E6]">
           <div className="flex items-center gap-2 text-white font-bold text-sm drop-shadow-md">

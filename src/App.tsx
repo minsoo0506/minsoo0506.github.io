@@ -131,7 +131,7 @@ function App() {
   return (
     <div className="min-h-screen xp-desktop relative overflow-hidden font-tahoma selection:bg-[#0b61ff] selection:text-white">
       {/* Background Image */}
-      <div className="absolute inset-0 pb-[30px] pointer-events-none">
+      <div className="absolute inset-0 pb-[32px] pointer-events-none">
         <img
           src="images/wallpaper.jpg"
           alt="Desktop Background"

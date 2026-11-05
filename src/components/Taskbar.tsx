@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { KeyRound, Power } from 'lucide-react';
 
 interface TaskbarDataProps {
   fullname: string;
@@ -81,7 +82,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
     <>
       {/* Taskbar Container */}
       <div
-        className="fixed bottom-0 left-0 right-0 h-[30px] w-full z-50 flex items-center select-none"
+        className="fixed bottom-0 left-0 right-0 h-[32px] w-full z-50 flex items-center select-none"
         style={{
           background:
             'linear-gradient(to bottom, #245EDC 0%, #3f8cf3 9%, #245EDC 18%, #245EDC 92%, #1941A5 100%)',
@@ -176,7 +177,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
             onClick={() => setShowStartMenu(false)}
           />
           <div
-            className="fixed bottom-[30px] left-0 w-[380px] max-w-full z-[70] flex flex-col rounded-t-[5px] overflow-hidden animate-in slide-in-from-bottom-2 duration-100"
+            className="fixed bottom-[32px] left-0 w-[380px] max-w-full z-[70] flex flex-col rounded-t-[5px] overflow-hidden animate-in slide-in-from-bottom-2 duration-100"
             style={{
               boxShadow: '4px 4px 10px rgba(0,0,0,0.5)',
               border: '1px solid #003399',
@@ -273,9 +274,15 @@ export const Taskbar: React.FC<TaskbarProps> = ({
               }}
             >
               <button className="flex items-center gap-1.5 px-2 py-1 hover:bg-white/20 rounded text-white text-[11px]">
+                <span className="xp-session-icon xp-session-icon-logoff" aria-hidden="true">
+                  <KeyRound size={16} strokeWidth={2.5} />
+                </span>
                 <span>Log Off</span>
               </button>
               <button className="flex items-center gap-1.5 px-2 py-1 hover:bg-white/20 rounded text-white text-[11px]">
+                <span className="xp-session-icon xp-session-icon-power" aria-hidden="true">
+                  <Power size={16} strokeWidth={2.5} />
+                </span>
                 <span>Turn Off Computer</span>
               </button>
             </div>

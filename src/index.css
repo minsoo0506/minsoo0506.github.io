@@ -178,3 +178,22 @@
     left: 35%;
   }
 }
+
+/* Windows XP Start menu session buttons */
+.xp-session-icon {
+  width: 23px;
+  height: 23px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  box-shadow: inset 1px 1px 1px #ffffffa6, inset -1px -1px 1px #0006, 1px 1px 1px #16428a;
+}
+.xp-session-icon-logoff {
+  background: linear-gradient(135deg, #ffda78, #f7a21b 55%, #c56a00);
+}
+.xp-session-icon-power {
+  background: linear-gradient(135deg, #ffb69c, #e94f31 55%, #a9231c);
+}
