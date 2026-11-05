@@ -107,7 +107,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
             }}
           >
             <img
-              src="images/mypc.ico"
+              src="images/windows-classic-flag.svg"
               onError={(e) => (e.currentTarget.style.display = 'none')}
               className="w-5 h-5 drop-shadow-[1px_1px_1px_rgba(0,0,0,0.4)]"
               alt=""
