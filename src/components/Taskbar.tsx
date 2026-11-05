@@ -216,7 +216,11 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                     id: 'internet',
                     label: 'Internet',
                     subtitle: 'Internet Explorer',
-                    icon: <img src="images/internet-explorer.svg" alt="" className="w-8 h-8" />,
+                    icon: (
+                      <span className="xp-internet-icon">
+                        <img src="images/internet-explorer.svg" alt="" />
+                      </span>
+                    ),
                   },
                   ...menuItems.filter((item) => item.id === 'contact'),
                 ].map((item) => (
@@ -235,40 +239,11 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                   </button>
                 ))}
                 <div className="flex-1 min-h-[80px]" />
-                {programs && (
-                  <div className="mx-1 border border-[#245edc] bg-white text-[11px] shadow-md">
-                    {menuItems
-                      .filter((item) => item.id !== 'contact')
-                      .map((item) => (
-                        <button
-                          key={item.id}
-                          onClick={() => handleMenuItemClick(item.id)}
-                          className="block w-full text-left p-1 hover:bg-[#2F71CD] hover:text-white"
-                        >
-                          {item.label}
-                        </button>
-                      ))}
-                    <button
-                      onClick={() => setGames(!games)}
-                      className="block w-full text-left p-1 hover:bg-[#2F71CD] hover:text-white"
-                    >
-                      📁 Games ▸
-                    </button>
-                    {games && (
-                      <button
-                        onClick={() => handleMenuItemClick('pinball')}
-                        className="block w-full text-left pl-5 py-1 hover:bg-[#2F71CD] hover:text-white"
-                      >
-                        3D Pinball
-                      </button>
-                    )}
-                  </div>
-                )}
                 <button
                   onClick={() => setPrograms(!programs)}
-                  className="border-t border-gray-300 py-2 text-[11px] font-bold hover:bg-[#2F71CD] hover:text-white"
+                  className="border-t border-gray-300 py-2 text-[13px] font-bold hover:bg-[#2F71CD] hover:text-white"
                 >
-                  All Programs <span className="text-green-600">▶</span>
+                  All Programs <span className="text-green-600 text-[20px] align-middle">▶</span>
                 </button>
               </div>
 
@@ -313,16 +288,38 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                     </button>
                   ))}
                 <div className="flex-1"></div>
-
-                <div className="h-[1px] bg-[#95BDE7] opacity-50 my-1 mx-2"></div>
-
-                <button className="w-full text-left px-3 py-1.5 flex items-center gap-2 hover:bg-[#2F71CD] hover:text-white group rounded-[3px]">
-                  <span className="text-[11px] text-[#00136B] group-hover:text-white">
-                    Control Panel
-                  </span>
-                </button>
               </div>
             </div>
+
+            {programs && (
+              <div className="absolute z-20 left-1/2 top-[60px] bottom-[40px] w-[48%] overflow-auto border border-[#245edc] bg-[#eaf3ff] text-[13px] shadow-md">
+                {menuItems
+                  .filter((item) => item.id !== 'contact')
+                  .map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => handleMenuItemClick(item.id)}
+                      className="block w-full text-left px-3 py-2 hover:bg-[#2F71CD] hover:text-white"
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                <button
+                  onClick={() => setGames(!games)}
+                  className="block w-full text-left px-3 py-2 hover:bg-[#2F71CD] hover:text-white"
+                >
+                  📁 Games ▸
+                </button>
+                {games && (
+                  <button
+                    onClick={() => handleMenuItemClick('pinball')}
+                    className="block w-full text-left pl-7 py-2 hover:bg-[#2F71CD] hover:text-white"
+                  >
+                    3D Pinball
+                  </button>
+                )}
+              </div>
+            )}
 
             {/* Footer */}
             <div

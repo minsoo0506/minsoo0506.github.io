@@ -197,3 +197,26 @@
 .xp-session-icon-power {
   background: linear-gradient(135deg, #ffb69c, #e94f31 55%, #a9231c);
 }
+
+.xp-internet-icon {
+  position: relative;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  flex: none;
+}
+.xp-internet-icon img {
+  width: 100%;
+  height: 100%;
+}
+.xp-internet-icon::after {
+  content: '';
+  position: absolute;
+  inset: 3px 11px;
+  border: 2px solid #e6a700;
+  border-left-color: #fff3a1;
+  border-radius: 50%;
+  transform: rotate(50deg);
+  box-shadow: 0 0 1px #704600;
+  pointer-events: none;
+}

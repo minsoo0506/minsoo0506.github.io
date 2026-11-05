@@ -73,12 +73,25 @@ function App() {
         title: '3D Pinball for Windows — Space Cadet',
         icon: <img src="images/help.ico" alt="" className="w-4 h-4" />,
         component: (
-          <iframe
-            title="3D Pinball"
-            src="https://lrusso.github.io/3DPinballSpaceCadet/3DPinballSpaceCadet.htm"
-            className="w-full h-full border-0 bg-black"
-            allow="autoplay; fullscreen"
-          />
+          <div className="h-full flex flex-col bg-black">
+            <iframe
+              title="3D Pinball"
+              src="https://pinball.alula.me/"
+              className="w-full flex-1 border-0"
+              allow="autoplay; gamepad; fullscreen"
+            />
+            <div className="text-white text-xs text-center">
+              Click the game · Z / : flippers · hold and release Space: launch
+            </div>
+            <a
+              href="https://github.com/alula/SpaceCadetPinball"
+              target="_blank"
+              rel="noreferrer"
+              className="text-white text-xs text-center"
+            >
+              Space Cadet Pinball web port ↗
+            </a>
+          </div>
         ),
         position: { x: 100, y: 45 },
       },
