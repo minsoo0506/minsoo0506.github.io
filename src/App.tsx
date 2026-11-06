@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { DocumentsWindow } from './components/windows/DocumentsWindow';
 import { CommandPromptWindow } from './components/windows/CommandPromptWindow';
 import { Music } from 'lucide-react';
-import { InternetWindow } from './components/windows/InternetWindow';
 import { MusicWindow } from './components/windows/MusicWindow';
 import { Window } from './components/Window';
 import { Taskbar } from './components/Taskbar';
@@ -34,6 +33,15 @@ function App() {
   const [openWindows, setOpenWindows] = useState<OpenWindow[]>([]);
   const [activeWindow, setActiveWindow] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [recycleError, setRecycleError] = useState<string | null>(null);
+  const recycleMessages = [
+    "You really thought I'd let you do that?",
+    'Fatal Error: Too much effort invested.',
+    "I'M NOT READY TO LET GO!!!",
+    "YOU CAN'T JUST TAKE THIS AWAY FROM ME!!!",
+  ];
+  const rejectRecycle = () =>
+    setRecycleError(recycleMessages[Math.floor(Math.random() * recycleMessages.length)]);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 3000);
@@ -63,38 +71,6 @@ function App() {
 
     const windowConfigs: Record<string, Omit<OpenWindow, 'id'>> = {
       documents: documentsConfig,
-      internet: {
-        title: 'Internet Explorer',
-        icon: <img src="images/internet-explorer.svg" alt="" className="w-4 h-4" />,
-        component: <InternetWindow />,
-        position: { x: 100, y: 45 },
-      },
-      pinball: {
-        title: '3D Pinball for Windows — Space Cadet',
-        icon: <img src="images/help.ico" alt="" className="w-4 h-4" />,
-        component: (
-          <div className="h-full flex flex-col bg-black">
-            <iframe
-              title="3D Pinball"
-              src="https://pinball.alula.me/"
-              className="w-full flex-1 border-0"
-              allow="autoplay; gamepad; fullscreen"
-            />
-            <div className="text-white text-xs text-center">
-              Click the game · Z / : flippers · hold and release Space: launch
-            </div>
-            <a
-              href="https://github.com/alula/SpaceCadetPinball"
-              target="_blank"
-              rel="noreferrer"
-              className="text-white text-xs text-center"
-            >
-              Space Cadet Pinball web port ↗
-            </a>
-          </div>
-        ),
-        position: { x: 100, y: 45 },
-      },
       about: {
         title: 'About Me',
         icon: <img src="images/mypc.ico" alt="About Me" className="w-4 h-4" />,
@@ -196,6 +172,69 @@ function App() {
         />
       </div>
 
+      <div
+        className="absolute right-2 bottom-[40px] z-10"
+        onDragOver={(event) => {
+          if (event.dataTransfer.types.includes('application/x-xp-desktop-icon')) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'move';
+          }
+        }}
+        onDrop={(event) => {
+          event.preventDefault();
+          if (event.dataTransfer.getData('application/x-xp-desktop-icon')) rejectRecycle();
+        }}
+      >
+        <DesktopIcon
+          icon={<img src="images/recycle-bin.png" alt="" className="w-10 h-10" />}
+          label="Recycle Bin"
+          onClick={() => {}}
+          draggable={false}
+        />
+      </div>
+      {recycleError && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center" role="presentation">
+          <div
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="recycle-error-title"
+            aria-describedby="recycle-error-message"
+            className="w-[400px] max-w-[calc(100vw-24px)] rounded-t-[7px] bg-[#ece9d8] border-[3px] border-[#0054df] shadow-xp-window"
+          >
+            <div className="h-[26px] px-1 flex items-center justify-between bg-gradient-to-b from-[#3a8cff] via-[#0058e6] to-[#0040ab] text-white text-[13px] font-bold">
+              <span id="recycle-error-title">Error</span>
+              <button
+                onClick={() => setRecycleError(null)}
+                aria-label="Close"
+                className="w-5 h-5 rounded-sm bg-[#e64224] border border-white text-white leading-none"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="flex items-start gap-4 px-5 pt-5 pb-4 min-h-[75px]">
+              <div
+                aria-hidden="true"
+                className="w-8 h-8 rounded-full bg-gradient-to-b from-[#ff8a79] via-[#eb1608] to-[#980700] border border-[#8d0800] shadow flex items-center justify-center text-white text-[26px] font-bold leading-none flex-shrink-0"
+              >
+                ×
+              </div>
+              <p id="recycle-error-message" className="text-[12px] text-black pt-1">
+                {recycleError}
+              </p>
+            </div>
+            <div className="flex justify-center pb-4">
+              <button
+                autoFocus
+                onClick={() => setRecycleError(null)}
+                className="px-7 py-[2px] text-[12px] text-black bg-[#ece9d8] border border-[#003c74] shadow-[inset_1px_1px_white,inset_-1px_-1px_#888] focus:outline focus:outline-1 focus:outline-dotted focus:outline-black"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="absolute inset-0 z-20 pointer-events-none">
         {openWindows.map((window) => (
           <div
@@ -205,7 +244,7 @@ function App() {
             className="pointer-events-auto"
           >
             <Window
-              explorer={['documents', 'internet', 'pinball'].includes(window.id)}
+              explorer={window.id === 'documents'}
               media={window.id === 'music'}
               terminal={window.id === 'terminal'}
               title={window.title}

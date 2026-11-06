@@ -4,12 +4,25 @@ interface DesktopIconProps {
   icon: React.ReactNode;
   label: string;
   onClick: () => void;
+  draggable?: boolean;
 }
 
-export const DesktopIcon: React.FC<DesktopIconProps> = ({ icon, label, onClick }) => {
+export const DesktopIcon: React.FC<DesktopIconProps> = ({
+  icon,
+  label,
+  onClick,
+  draggable = true,
+}) => {
   return (
     <button
       onClick={onClick}
+      draggable={draggable}
+      onDragStart={(event) => {
+        if (draggable) {
+          event.dataTransfer.setData('application/x-xp-desktop-icon', label);
+          event.dataTransfer.effectAllowed = 'move';
+        }
+      }}
       className="w-24 group flex flex-col items-center gap-1 p-1 rounded hover:bg-[#0b61ff]/20 focus:bg-[#0b61ff]/20 focus:outline-[1px] focus:outline-dotted focus:outline-white/50 transition-colors"
     >
       <div className="w-12 h-12 flex items-center justify-center filter drop-shadow-md">{icon}</div>

@@ -23,7 +23,6 @@ export const Taskbar: React.FC<TaskbarProps> = ({
 }) => {
   const [showStartMenu, setShowStartMenu] = useState(false);
   const [programs, setPrograms] = useState(false);
-  const [games, setGames] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -79,7 +78,6 @@ export const Taskbar: React.FC<TaskbarProps> = ({
     onStartMenuClick(id);
     setShowStartMenu(false);
     setPrograms(false);
-    setGames(false);
   };
 
   return (
@@ -211,33 +209,23 @@ export const Taskbar: React.FC<TaskbarProps> = ({
             <div className="flex bg-white border-x-2 border-[#245EDC]">
               {/* Left Column (White) */}
               <div className="w-[50%] py-2 flex flex-col gap-1 pl-1">
-                {[
-                  {
-                    id: 'internet',
-                    label: 'Internet',
-                    subtitle: 'Internet Explorer',
-                    icon: (
-                      <span className="xp-internet-icon">
-                        <img src="images/internet-explorer.svg" alt="" />
+                {menuItems
+                  .filter((item) => item.id !== 'terminal')
+                  .map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => handleMenuItemClick(item.id)}
+                      className="w-full text-left px-2 py-2 flex items-center gap-3 hover:bg-[#2F71CD] hover:text-white group"
+                    >
+                      {item.icon}
+                      <span className="flex flex-col">
+                        <strong className="text-[11px]">{item.label}</strong>
+                        <span className="text-[9px] text-gray-500 group-hover:text-white">
+                          {item.subtitle}
+                        </span>
                       </span>
-                    ),
-                  },
-                  ...menuItems.filter((item) => item.id === 'contact'),
-                ].map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => handleMenuItemClick(item.id)}
-                    className="w-full text-left px-2 py-2 flex items-center gap-3 hover:bg-[#2F71CD] hover:text-white group"
-                  >
-                    {item.icon}
-                    <span className="flex flex-col">
-                      <strong className="text-[11px]">{item.label}</strong>
-                      <span className="text-[9px] text-gray-500 group-hover:text-white">
-                        {item.subtitle}
-                      </span>
-                    </span>
-                  </button>
-                ))}
+                    </button>
+                  ))}
                 <div className="flex-1 min-h-[80px]" />
                 <button
                   onClick={() => setPrograms(!programs)}
@@ -276,7 +264,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
 
                 <div className="h-px bg-[#95BDE7] mx-2 my-1" />
                 {menuItems
-                  .filter((item) => item.id !== 'contact')
+                  .filter((item) => item.id === 'terminal')
                   .map((item) => (
                     <button
                       key={item.id}
@@ -292,32 +280,36 @@ export const Taskbar: React.FC<TaskbarProps> = ({
             </div>
 
             {programs && (
-              <div className="absolute z-20 left-1/2 top-[60px] bottom-[40px] w-[48%] overflow-auto border border-[#245edc] bg-[#eaf3ff] text-[13px] shadow-md">
-                {menuItems
-                  .filter((item) => item.id !== 'contact')
-                  .map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => handleMenuItemClick(item.id)}
-                      className="block w-full text-left px-3 py-2 hover:bg-[#2F71CD] hover:text-white"
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                <button
-                  onClick={() => setGames(!games)}
-                  className="block w-full text-left px-3 py-2 hover:bg-[#2F71CD] hover:text-white"
-                >
-                  📁 Games ▸
-                </button>
-                {games && (
+              <div
+                className="absolute z-20 left-1/2 top-[60px] bottom-[40px] w-[48%] overflow-auto border border-[#245edc] bg-[#eaf3ff] text-[13px] shadow-md"
+                aria-label="All Programs list"
+              >
+                {menuItems.map((item) => (
                   <button
-                    onClick={() => handleMenuItemClick('pinball')}
-                    className="block w-full text-left pl-7 py-2 hover:bg-[#2F71CD] hover:text-white"
+                    key={item.id}
+                    onClick={() => handleMenuItemClick(item.id)}
+                    className="flex items-center gap-2 w-full text-left px-3 py-2 hover:bg-[#2F71CD] hover:text-white"
                   >
-                    3D Pinball
+                    <span className="w-6 h-6 flex-shrink-0 [&_img]:w-6 [&_img]:h-6">
+                      {item.icon}
+                    </span>
+                    {item.label}
                   </button>
-                )}
+                ))}
+                <button
+                  onClick={() => handleMenuItemClick('documents')}
+                  className="flex items-center gap-2 w-full text-left px-3 py-2 hover:bg-[#2F71CD] hover:text-white"
+                >
+                  <img src="images/folder.ico" alt="" className="w-6 h-6" />
+                  My Documents
+                </button>
+                <button
+                  onClick={() => handleMenuItemClick('music')}
+                  className="flex items-center gap-2 w-full text-left px-3 py-2 hover:bg-[#2F71CD] hover:text-white"
+                >
+                  <img src="images/folder.ico" alt="" className="w-6 h-6" />
+                  My Music
+                </button>
               </div>
             )}
 
