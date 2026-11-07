@@ -281,16 +281,16 @@ export const Taskbar: React.FC<TaskbarProps> = ({
 
             {programs && (
               <div
-                className="absolute z-20 left-1/2 top-[60px] bottom-[40px] w-[48%] overflow-auto border border-[#245edc] bg-[#eaf3ff] text-[13px] shadow-md"
+                className="absolute z-20 left-[40%] bottom-[40px] w-[min(210px,60%)] max-h-[calc(100%-60px)] overflow-auto border border-[#7da2ce] bg-white p-[2px] text-[11px] shadow-[2px_3px_5px_rgba(0,0,0,0.35)]"
                 aria-label="All Programs list"
               >
                 {menuItems.map((item) => (
                   <button
                     key={item.id}
                     onClick={() => handleMenuItemClick(item.id)}
-                    className="flex items-center gap-2 w-full text-left px-3 py-2 hover:bg-[#2F71CD] hover:text-white"
+                    className="flex items-center gap-2 w-full text-left px-1 py-[3px] hover:bg-[#316ac5] hover:text-white"
                   >
-                    <span className="w-6 h-6 flex-shrink-0 [&_img]:w-6 [&_img]:h-6">
+                    <span className="w-5 h-5 flex-shrink-0 [&_img]:w-5 [&_img]:h-5">
                       {item.icon}
                     </span>
                     {item.label}
@@ -298,16 +298,16 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                 ))}
                 <button
                   onClick={() => handleMenuItemClick('documents')}
-                  className="flex items-center gap-2 w-full text-left px-3 py-2 hover:bg-[#2F71CD] hover:text-white"
+                  className="flex items-center gap-2 w-full text-left px-1 py-[3px] hover:bg-[#316ac5] hover:text-white"
                 >
-                  <img src="images/folder.ico" alt="" className="w-6 h-6" />
+                  <img src="images/folder.ico" alt="" className="w-5 h-5" />
                   My Documents
                 </button>
                 <button
                   onClick={() => handleMenuItemClick('music')}
-                  className="flex items-center gap-2 w-full text-left px-3 py-2 hover:bg-[#2F71CD] hover:text-white"
+                  className="flex items-center gap-2 w-full text-left px-1 py-[3px] hover:bg-[#316ac5] hover:text-white"
                 >
-                  <img src="images/folder.ico" alt="" className="w-6 h-6" />
+                  <img src="images/folder.ico" alt="" className="w-5 h-5" />
                   My Music
                 </button>
               </div>

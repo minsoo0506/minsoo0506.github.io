@@ -173,7 +173,7 @@ function App() {
       </div>
 
       <div
-        className="absolute right-2 bottom-[40px] z-10"
+        className="absolute right-2 bottom-[58px] z-10"
         onDragOver={(event) => {
           if (event.dataTransfer.types.includes('application/x-xp-desktop-icon')) {
             event.preventDefault();
@@ -199,7 +199,7 @@ function App() {
             aria-modal="true"
             aria-labelledby="recycle-error-title"
             aria-describedby="recycle-error-message"
-            className="w-[400px] max-w-[calc(100vw-24px)] rounded-t-[7px] bg-[#ece9d8] border-[3px] border-[#0054df] shadow-xp-window"
+            className="w-max min-w-[250px] max-w-[min(400px,calc(100vw-24px))] rounded-t-[7px] bg-[#ece9d8] border-[3px] border-[#0054df] shadow-xp-window"
           >
             <div className="h-[26px] px-1 flex items-center justify-between bg-gradient-to-b from-[#3a8cff] via-[#0058e6] to-[#0040ab] text-white text-[13px] font-bold">
               <span id="recycle-error-title">Error</span>
@@ -218,7 +218,7 @@ function App() {
               >
                 ×
               </div>
-              <p id="recycle-error-message" className="text-[12px] text-black pt-1">
+              <p id="recycle-error-message" className="text-[12px] text-black pt-1 break-words">
                 {recycleError}
               </p>
             </div>
