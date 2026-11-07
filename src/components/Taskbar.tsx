@@ -22,7 +22,6 @@ export const Taskbar: React.FC<TaskbarProps> = ({
   onStartMenuClick,
 }) => {
   const [showStartMenu, setShowStartMenu] = useState(false);
-  const [programs, setPrograms] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -77,7 +76,6 @@ export const Taskbar: React.FC<TaskbarProps> = ({
   const handleMenuItemClick = (id: string) => {
     onStartMenuClick(id);
     setShowStartMenu(false);
-    setPrograms(false);
   };
 
   return (
@@ -227,12 +225,6 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                     </button>
                   ))}
                 <div className="flex-1 min-h-[80px]" />
-                <button
-                  onClick={() => setPrograms(!programs)}
-                  className="border-t border-gray-300 py-2 text-[13px] font-bold hover:bg-[#2F71CD] hover:text-white"
-                >
-                  All Programs <span className="text-green-600 text-[20px] align-middle">▶</span>
-                </button>
               </div>
 
               {/* Right Column (Blue) */}
@@ -278,40 +270,6 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                 <div className="flex-1"></div>
               </div>
             </div>
-
-            {programs && (
-              <div
-                className="absolute z-20 left-[40%] bottom-[40px] w-[min(210px,60%)] max-h-[calc(100%-60px)] overflow-auto border border-[#7da2ce] bg-white p-[2px] text-[11px] shadow-[2px_3px_5px_rgba(0,0,0,0.35)]"
-                aria-label="All Programs list"
-              >
-                {menuItems.map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => handleMenuItemClick(item.id)}
-                    className="flex items-center gap-2 w-full text-left px-1 py-[3px] hover:bg-[#316ac5] hover:text-white"
-                  >
-                    <span className="w-5 h-5 flex-shrink-0 [&_img]:w-5 [&_img]:h-5">
-                      {item.icon}
-                    </span>
-                    {item.label}
-                  </button>
-                ))}
-                <button
-                  onClick={() => handleMenuItemClick('documents')}
-                  className="flex items-center gap-2 w-full text-left px-1 py-[3px] hover:bg-[#316ac5] hover:text-white"
-                >
-                  <img src="images/folder.ico" alt="" className="w-5 h-5" />
-                  My Documents
-                </button>
-                <button
-                  onClick={() => handleMenuItemClick('music')}
-                  className="flex items-center gap-2 w-full text-left px-1 py-[3px] hover:bg-[#316ac5] hover:text-white"
-                >
-                  <img src="images/folder.ico" alt="" className="w-5 h-5" />
-                  My Music
-                </button>
-              </div>
-            )}
 
             {/* Footer */}
             <div
