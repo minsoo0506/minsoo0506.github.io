@@ -2,11 +2,24 @@ import portfolio from '../data/portfolio.json';
 
 type Node = { kind: 'directory' } | { kind: 'file'; text: string };
 export type TerminalState = { cwd: string; nodes: Record<string, Node> };
-type Result = { state: TerminalState; output: string; clear?: boolean; exit?: boolean };
+type Result = {
+  state: TerminalState;
+  output: string;
+  clear?: boolean;
+  exit?: boolean;
+  openUrl?: string;
+  effect?: 'about' | 'hack' | 'bsod' | 'countdown';
+};
 export const TERMINAL_STORAGE = 'minsoo-command-prompt-v1';
 const HOME = 'c:\\documents and settings\\minsoo';
 const missing = 'The system cannot find the path specified.';
 const help = `Browser Command Prompt — files are stored in this browser only.
+
+ABOUT / SKILLS / CONTACT   Portfolio information
+PROJECTS [number]       List projects or open a project
+COFFEE / JOKE / WEATHER   A little fun
+HACK / BSOD / COUNTDOWN   Special effects
+SUDO                    Try your luck
 
 DIR [path]              List files and folders
 CD [path]              Change directory (CD .. goes back)
@@ -122,6 +135,55 @@ export function execute(current: TerminalState, line: string): Result {
     return { ...result, state: { ...current, nodes } };
   };
   if (cmd === 'help' || arg === '/?') return respond(help);
+  if (cmd === 'about')
+    return {
+      ...result,
+      output: `${portfolio.personal.fullname} — ${portfolio.personal.title}\n${portfolio.personal.location}\n\n${portfolio.personal.bio}`,
+      effect: 'about',
+    };
+  if (cmd === 'skills')
+    return respond(
+      portfolio.skills.map((group) => `${group.category}: ${group.items.join(', ')}`).join('\n')
+    );
+  if (cmd === 'contact')
+    return respond(
+      `${portfolio.personal.email}\nGitHub: ${portfolio.social.github}\nInstagram: ${portfolio.social.instagram}`
+    );
+  if (cmd === 'projects') {
+    if (!arg)
+      return respond(
+        portfolio.projects
+          .map((project, index) => `${index + 1}. ${project.title}\n   ${project.description}`)
+          .join('\n\n') + '\n\nType PROJECTS <number> to open a project.'
+      );
+    const index = /^\d+$/.test(arg.trim()) ? Number(arg.trim()) - 1 : -1;
+    const project = portfolio.projects[index];
+    return project
+      ? { ...result, output: `Opening ${project.title}...`, openUrl: project.link }
+      : respond('Project not found. Type PROJECTS for the list.');
+  }
+  if (cmd === 'coffee')
+    return respond(
+      '   ( (\n    ) )\n  ........\n  |      |]\n  \\______/\nCoffee level: restored.'
+    );
+  if (cmd === 'joke')
+    return respond(
+      [
+        'Why do programmers prefer dark mode? Because light attracts bugs.',
+        'It works on my machine. The machine has been promoted to production.',
+        'A SQL query walks into a bar and asks: Can I join you?',
+      ][Math.floor(Math.random() * 3)]
+    );
+  if (cmd === 'weather')
+    return respond(
+      [
+        'Today: Cloudy with a chance of null pointers.',
+        'Forecast: 99% chance of debugging.',
+        'Sunny with occasional bursts of inspiration.',
+      ][Math.floor(Math.random() * 3)]
+    );
+  if (cmd === 'sudo') return respond('Nice try. This is Windows XP.');
+  if (cmd === 'hack' || cmd === 'bsod' || cmd === 'countdown') return { ...result, effect: cmd };
   if (cmd === 'cls') return { ...result, clear: true };
   if (cmd === 'exit') return { ...result, exit: true };
   if (cmd === 'ver')

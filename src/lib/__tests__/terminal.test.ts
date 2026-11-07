@@ -34,4 +34,19 @@ describe('browser command prompt', () => {
     expect(restoreTerminal('{bad')).toEqual(createTerminal());
     expect(restoreTerminal('{"cwd":"missing","nodes":{}}')).toEqual(createTerminal());
   });
+  it('provides portfolio commands and safe entertainment effects', () => {
+    const state = createTerminal();
+    expect(execute(state, 'about').output).toContain('Minsoo Park');
+    expect(execute(state, 'skills').output).toContain('Embedded Systems');
+    expect(execute(state, 'projects').output).toContain('ClassBridge');
+    expect(execute(state, 'projects 1').openUrl).toBe(
+      'https://github.com/minsoo0506/ClassBridge-BE'
+    );
+    expect(execute(state, 'projects 999').output).toContain('not found');
+    expect(execute(state, 'contact').output).toContain('mspark010506@gmail.com');
+    for (const cmd of ['coffee', 'joke', 'weather', 'sudo'])
+      expect(execute(state, cmd).output).not.toBe('');
+    for (const cmd of ['hack', 'bsod', 'countdown']) expect(execute(state, cmd).effect).toBe(cmd);
+    expect(execute(state, 'help').output).toContain('PROJECTS');
+  });
 });
