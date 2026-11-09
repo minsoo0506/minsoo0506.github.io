@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { DocumentsWindow } from './components/windows/DocumentsWindow';
 import { CommandPromptWindow } from './components/windows/CommandPromptWindow';
-import { Music } from 'lucide-react';
+import { ModbusLabWindow } from './components/windows/ModbusLabWindow';
+import { FactoryControlWindow } from './components/windows/FactoryControlWindow';
+import { Cable, Factory, Music } from 'lucide-react';
 import { MusicWindow } from './components/windows/MusicWindow';
 import { Window } from './components/Window';
 import { Taskbar } from './components/Taskbar';
@@ -105,6 +107,18 @@ function App() {
         icon: <img src="images/command-prompt.svg" alt="" className="w-4 h-4" />,
         component: <CommandPromptWindow onClose={() => closeWindow('terminal')} />,
         position: { x: 100, y: 75 },
+      },
+      modbus: {
+        title: 'Modbus Lab',
+        icon: <Cable size={16} className="text-white" />,
+        component: <ModbusLabWindow />,
+        position: { x: 80, y: 35 },
+      },
+      factory: {
+        title: 'Factory Control',
+        icon: <Factory size={16} className="text-white" />,
+        component: <FactoryControlWindow />,
+        position: { x: 80, y: 35 },
       },
       contact: {
         title: 'Contact',
@@ -244,7 +258,11 @@ function App() {
             className="pointer-events-auto"
           >
             <Window
-              explorer={window.id === 'documents'}
+              explorer={
+                window.id === 'documents' ||
+                window.id === 'modbus' ||
+                window.id === 'factory'
+              }
               media={window.id === 'music'}
               terminal={window.id === 'terminal'}
               title={window.title}

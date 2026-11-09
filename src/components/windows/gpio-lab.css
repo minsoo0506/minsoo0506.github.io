@@ -1,0 +1,354 @@
+.gpio-lab {
+  min-height: 100%;
+  background: #101820;
+  color: #dbe8e7;
+  font: 12px Tahoma, sans-serif;
+}
+.bench-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 19px 24px;
+  background: #18272d;
+  border-bottom: 3px solid #e9ae4e;
+}
+.bench-header small {
+  font: bold 9px monospace;
+  letter-spacing: 0.18em;
+  color: #efb954;
+}
+.bench-header h1 {
+  margin: 5px 0;
+  color: #eff5ec;
+  font: bold 25px monospace;
+  letter-spacing: 0.06em;
+}
+.bench-header h1 em {
+  color: #9cb6ae;
+  font-style: normal;
+  font-weight: normal;
+}
+.bench-header p {
+  margin: 0;
+  color: #9db1ac;
+}
+.bench-meta {
+  align-self: center;
+  border-left: 1px solid #586c62;
+  padding-left: 14px;
+  color: #9bb1aa;
+  font: 9px/1.6 monospace;
+  white-space: nowrap;
+}
+.bench-meta b {
+  color: #eec277;
+}
+.bench-body {
+  padding: 14px;
+}
+.bench-brief {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  background: #23332e;
+  border: 1px solid #53675b;
+  margin-bottom: 12px;
+}
+.bench-brief > span:first-child {
+  font: bold 9px monospace;
+  color: #eec178;
+  white-space: nowrap;
+}
+.bench-brief > span:last-child {
+  font: 9px monospace;
+  color: #d4a871;
+  white-space: nowrap;
+}
+.bench-brief .bench-ready {
+  color: #87dbb2 !important;
+}
+.bench-brief div {
+  flex: 1;
+}
+.bench-brief strong {
+  font-size: 13px;
+  color: #f0f4e8;
+}
+.bench-brief p {
+  margin: 3px 0 0;
+  color: #afc1b7;
+  font-size: 11px;
+}
+.bench-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 235px;
+  gap: 12px;
+}
+.bench-drawing,
+.bench-side {
+  background: #f0eee1;
+  color: #263c3d;
+  border: 1px solid #81928c;
+}
+.bench-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  padding: 10px 12px;
+  background: #dce3d9;
+  border-bottom: 1px solid #adbdb1;
+  color: #526d65;
+  font: bold 9px monospace;
+  letter-spacing: 0.04em;
+}
+.schematic-scroll {
+  overflow-x: auto;
+  padding: 16px 12px;
+  background-color: #f5f4e8;
+  background-image: linear-gradient(#d6e1d766 1px, transparent 1px),
+    linear-gradient(90deg, #d6e1d766 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+.schematic-scroll pre {
+  font: 11px/1.55 monospace;
+  color: #204c45;
+  margin: 0;
+  width: max-content;
+  min-width: 100%;
+}
+.bench-drawing-footer {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 10px 12px;
+  background: #e3e9dd;
+}
+.bench-drawing-footer span {
+  border: 1px solid #a4b6a7;
+  padding: 5px;
+  color: #416c5e;
+  font: bold 9px monospace;
+}
+.bench-footnote {
+  font: 10px/1.5 Tahoma, sans-serif;
+  margin: 10px 12px;
+  color: #647970;
+}
+.bench-side {
+  padding-bottom: 12px;
+}
+.bench-side label {
+  display: block;
+  margin: 10px 12px;
+  color: #38564e;
+  font: bold 10px monospace;
+}
+.bench-side label small {
+  float: right;
+  color: #87998e;
+  font-weight: normal;
+}
+.bench-side select {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 6px;
+  color: #203f39;
+  background: #fff;
+  border: 1px solid #96aaa0;
+  font: 11px Tahoma, sans-serif;
+}
+.bench-verify,
+.bench-check,
+.bench-reset,
+.bench-switch {
+  display: block;
+  margin: 9px 12px 0;
+  width: calc(100% - 24px);
+  padding: 8px;
+  border: 1px solid #3a6559;
+  color: #f6f9ed;
+  background: #326b5c;
+  font: bold 10px monospace;
+}
+.bench-divider {
+  border-top: 1px solid #afc0b4;
+  margin-top: 14px;
+}
+.bench-output {
+  display: flex;
+  gap: 6px;
+  margin: 10px 12px;
+}
+.bench-output button {
+  flex: 1;
+  padding: 7px;
+  border: 1px solid #8a9b8e;
+  background: #e4eadf;
+  color: #35574e;
+  font: bold 10px monospace;
+}
+.bench-output button:disabled {
+  opacity: 0.45;
+}
+.bench-indicator {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 12px;
+  font: 10px monospace;
+  color: #536e62;
+}
+.bench-indicator b {
+  margin-left: auto;
+}
+.lamp {
+  width: 10px;
+  height: 10px;
+  background: #80958b;
+  border-radius: 50%;
+}
+.lamp.on {
+  background: #51c889;
+  box-shadow: 0 0 8px #57cf93;
+}
+.bench-switch {
+  background: #ecf0e6;
+  color: #355c52;
+}
+.bench-read {
+  margin: 8px 12px;
+  color: #49695f;
+  font: 11px monospace;
+}
+.bench-read b {
+  float: right;
+  color: #166149;
+}
+.bench-check {
+  background: #dca74e;
+  color: #26372c;
+  border-color: #a87e36;
+}
+.bench-reset {
+  background: transparent;
+  color: #687e71;
+  border-color: #a4b3a4;
+}
+.bench-status {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #5a7060;
+  background: #263a33;
+  color: #d9e9d7;
+  line-height: 1.5;
+}
+.bench-status span {
+  font: bold 9px monospace;
+  color: #efbc6d;
+  white-space: nowrap;
+}
+.bench-notes {
+  margin-top: 12px;
+  color: #a6b9af;
+  font: 10px/1.6 Tahoma, sans-serif;
+}
+.bench-notes b {
+  color: #d8bd82;
+  font: 9px monospace;
+}
+@media (max-width: 700px) {
+  .bench-grid {
+    grid-template-columns: 1fr;
+  }
+  .bench-meta {
+    display: none;
+  }
+  .bench-brief {
+    flex-wrap: wrap;
+  }
+  .bench-brief div {
+    min-width: 75%;
+  }
+  .bench-header {
+    padding: 14px;
+  }
+  .schematic-scroll pre {
+    font-size: 10px;
+  }
+}
+.schematic-scroll {
+  padding: 10px;
+  overflow-x: auto;
+}
+.circuit-svg {
+  display: block;
+  min-width: 720px;
+  width: 100%;
+  height: auto;
+  color: #294d46;
+}
+.circuit-labels {
+  font: 12px monospace;
+  fill: #355e53;
+}
+.circuit-labels .circuit-title {
+  font: bold 18px monospace;
+}
+.circuit-terminal {
+  cursor: pointer;
+  outline: none;
+}
+.circuit-terminal circle:first-child {
+  fill: #f8faf0;
+  stroke: #d49836;
+  stroke-width: 3;
+}
+.circuit-terminal circle:last-child {
+  fill: #d49836;
+}
+.circuit-terminal:hover circle:first-child,
+.circuit-terminal:focus circle:first-child,
+.circuit-terminal.selected circle:first-child {
+  fill: #ffe2a2;
+  stroke: #a25c0d;
+  stroke-width: 4;
+}
+.circuit-jumper {
+  fill: none;
+  stroke: #1976b8;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.circuit-jumper.unsafe {
+  stroke: #d44d35;
+}
+.bench-connections {
+  margin: 10px 12px;
+  color: #47685d;
+  font: 10px/1.7 monospace;
+}
+.bench-connections div {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #cbd8c9;
+  padding: 4px 0;
+}
+.bench-connections b {
+  color: #216a57;
+}
+.bench-connections p {
+  color: #73877c;
+  line-height: 1.4;
+}
+.bench-connections button {
+  padding: 5px 8px;
+  background: #e5ede3;
+  border: 1px solid #9bb0a1;
+  color: #3f6558;
+  font: 10px monospace;
+}

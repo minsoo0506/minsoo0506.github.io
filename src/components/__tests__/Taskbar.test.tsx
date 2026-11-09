@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 import { Taskbar } from '../Taskbar';
@@ -55,6 +55,18 @@ describe('Taskbar', () => {
     expect(onStartMenuClick).toHaveBeenLastCalledWith('documents');
     expect(screen.queryByText('My Documents')).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /start/i }));
+    expect(screen.queryByText('Modbus Lab')).not.toBeInTheDocument();
+    await user.hover(screen.getByRole('button', { name: /playground/i }));
+    await user.click(screen.getByText('Modbus Lab'));
+    expect(onStartMenuClick).toHaveBeenLastCalledWith('modbus');
+    await user.click(screen.getByRole('button', { name: /start/i }));
+    await user.hover(screen.getByRole('button', { name: /playground/i }));
+    await user.click(screen.getByText('Factory Control'));
+    expect(onStartMenuClick).toHaveBeenLastCalledWith('factory');
+    await user.click(screen.getByRole('button', { name: /start/i }));
+    await user.hover(screen.getByRole('button', { name: /playground/i }));
+    await user.unhover(screen.getByRole('button', { name: /playground/i }));
+    await waitFor(() => expect(screen.queryByText('Factory Control')).not.toBeInTheDocument());
     await user.click(screen.getByText('Command Prompt'));
     expect(onStartMenuClick).toHaveBeenLastCalledWith('terminal');
   });

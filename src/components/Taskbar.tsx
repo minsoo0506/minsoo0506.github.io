@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { KeyRound, Power } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { Cable, Factory, Gamepad2, KeyRound, Power } from 'lucide-react';
 
 interface TaskbarDataProps {
   fullname: string;
@@ -22,6 +23,9 @@ export const Taskbar: React.FC<TaskbarProps> = ({
   onStartMenuClick,
 }) => {
   const [showStartMenu, setShowStartMenu] = useState(false);
+  const [showPlayground, setShowPlayground] = useState(false);
+  const [playgroundPosition, setPlaygroundPosition] = useState({ left: 0, top: 0 });
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -31,6 +35,33 @@ export const Taskbar: React.FC<TaskbarProps> = ({
 
     return () => clearInterval(timer);
   }, []);
+  useEffect(
+    () => () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    },
+    []
+  );
+  const cancelClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = null;
+  };
+  const scheduleClose = () => {
+    cancelClose();
+    closeTimer.current = setTimeout(() => setShowPlayground(false), 180);
+  };
+  const openPlayground = (element: HTMLElement) => {
+    cancelClose();
+    const rect = element.getBoundingClientRect();
+    const width = 190;
+    setPlaygroundPosition({
+      left:
+        rect.right + width <= window.innerWidth
+          ? rect.right
+          : Math.max(0, window.innerWidth - width),
+      top: Math.max(0, Math.min(rect.top, window.innerHeight - 100)),
+    });
+    setShowPlayground(true);
+  };
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('en-US', {
@@ -66,6 +97,12 @@ export const Taskbar: React.FC<TaskbarProps> = ({
       icon: <img src="images/phone.ico" alt="Contact" className="w-8 h-8" />,
     },
     {
+      id: 'modbus',
+      label: 'Modbus Lab',
+      subtitle: 'Serial Simulator',
+      icon: <Cable className="w-8 h-8 text-[#326e60]" />,
+    },
+    {
       id: 'terminal',
       label: 'Command Prompt',
       subtitle: 'Terminal',
@@ -76,6 +113,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
   const handleMenuItemClick = (id: string) => {
     onStartMenuClick(id);
     setShowStartMenu(false);
+    setShowPlayground(false);
   };
 
   return (
@@ -92,7 +130,10 @@ export const Taskbar: React.FC<TaskbarProps> = ({
         {/* Start Button */}
         <div className="pl-[2px] ">
           <button
-            onClick={() => setShowStartMenu(!showStartMenu)}
+            onClick={() => {
+              setShowStartMenu(!showStartMenu);
+              setShowPlayground(false);
+            }}
             className={`
               relative h-[30px] rounded-r-[10px] rounded-tl-[3px] rounded-bl-[3px] flex items-center pl-1 pr-5 gap-1
               font-bold text-white italic text-[16px] shadow-lg transition-all duration-100
@@ -174,7 +215,10 @@ export const Taskbar: React.FC<TaskbarProps> = ({
         <>
           <div
             className="fixed inset-0 z-[60] bg-transparent"
-            onClick={() => setShowStartMenu(false)}
+            onClick={() => {
+              setShowStartMenu(false);
+              setShowPlayground(false);
+            }}
           />
           <div
             className="fixed bottom-[32px] left-0 w-[380px] max-w-full max-h-[calc(100vh-32px)] overflow-y-auto z-[70] flex flex-col rounded-t-[5px] animate-in slide-in-from-bottom-2 duration-100"
@@ -208,7 +252,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
               {/* Left Column (White) */}
               <div className="w-[50%] py-2 flex flex-col gap-1 pl-1">
                 {menuItems
-                  .filter((item) => item.id !== 'terminal')
+                  .filter((item) => item.id !== 'terminal' && item.id !== 'modbus')
                   .map((item) => (
                     <button
                       key={item.id}
@@ -255,6 +299,69 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                 </button>
 
                 <div className="h-px bg-[#95BDE7] mx-2 my-1" />
+                <button
+                  type="button"
+                  aria-expanded={showPlayground}
+                  aria-controls="playground-menu"
+                  onMouseEnter={(event) => openPlayground(event.currentTarget)}
+                  onMouseLeave={scheduleClose}
+                  onFocus={(event) => openPlayground(event.currentTarget)}
+                  onBlur={(event) => {
+                    if (
+                      !document
+                        .getElementById('playground-menu')
+                        ?.contains(event.relatedTarget as Node | null)
+                    )
+                      scheduleClose();
+                  }}
+                  onClick={(event) => openPlayground(event.currentTarget)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Escape') setShowPlayground(false);
+                  }}
+                  className="w-full text-left px-3 py-1 flex items-center gap-2 hover:bg-[#2F71CD] hover:text-white text-[11px] font-bold text-[#00136B]"
+                >
+                  <Gamepad2 className="w-8 h-8 text-[#805098]" />
+                  <span className="flex-1">Playground</span>
+                  <span aria-hidden="true">▶</span>
+                </button>
+                {showPlayground &&
+                  createPortal(
+                    <div
+                      id="playground-menu"
+                      aria-label="Playground applications"
+                      className="fixed w-[190px] bg-[#f9f8ef] border border-[#687b99] shadow-lg p-1 z-[80]"
+                      style={{ left: playgroundPosition.left, top: playgroundPosition.top }}
+                      onMouseEnter={cancelClose}
+                      onMouseLeave={scheduleClose}
+                      onFocus={cancelClose}
+                      onBlur={(event) => {
+                        if (!event.currentTarget.contains(event.relatedTarget as Node | null))
+                          scheduleClose();
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Escape') setShowPlayground(false);
+                      }}
+                    >
+                      {[
+                        ['modbus', 'Modbus Lab'],
+                        ['factory', 'Factory Control'],
+                      ].map(([id, label]) => (
+                        <button
+                          key={id}
+                          onClick={() => handleMenuItemClick(id)}
+                          className="w-full text-left px-3 py-2 flex items-center gap-2 hover:bg-[#2F71CD] hover:text-white text-[11px] font-bold text-[#00136B]"
+                        >
+                          {id === 'modbus' ? (
+                            <Cable size={17} className="text-[#326e60]" />
+                          ) : (
+                            <Factory size={17} className="text-[#b56b28]" />
+                          )}
+                          {label}
+                        </button>
+                      ))}
+                    </div>,
+                    document.body
+                  )}
                 {menuItems
                   .filter((item) => item.id === 'terminal')
                   .map((item) => (
