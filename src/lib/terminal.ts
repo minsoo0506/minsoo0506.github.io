@@ -13,6 +13,59 @@ type Result = {
 export const TERMINAL_STORAGE = 'minsoo-command-prompt-v1';
 const HOME = 'c:\\documents and settings\\minsoo';
 const missing = 'The system cannot find the path specified.';
+const funResponses = {
+  coffee: [
+    'Espresso deployed. Productivity is starting up.',
+    'A fresh latte is ready. Foam status: excellent.',
+    'Coffee level: restored. Bugs, beware.',
+    'One cappuccino, with extra cloud storage.',
+    'Pour-over complete. Take a moment to enjoy it.',
+    'Iced coffee initialized. Stay cool out there.',
+    'Your mocha is ready, with a chocolatey patch update.',
+    'Americano loaded. The next idea is on its way.',
+    'A warm cup of coffee appears. Save your work and sip.',
+    'Refill successful. May your build be as strong as your coffee.',
+  ],
+  joke: [
+    'Why do programmers prefer dark mode? Because light attracts bugs.',
+    'It works on my machine. The machine has been promoted to production.',
+    'A SQL query walks into a bar and asks: Can I join you?',
+    'Why did the developer go broke? Because they used up all their cache.',
+    'There are 10 kinds of people: those who understand binary and those who do not.',
+    'Why was the JavaScript developer sad? They did not know how to null their feelings.',
+    'A programmer puts two glasses on the nightstand: one full and one empty, just in case.',
+    'Why did the computer visit the doctor? It had a virus.',
+    'My code has no bugs. It just develops unexpected features.',
+    'A byte walks into a bar looking a bit tired.',
+  ],
+  weather: [
+    'Today: Cloudy with a chance of null pointers.',
+    'Forecast: 99% chance of debugging.',
+    'Sunny with occasional bursts of inspiration.',
+    'Clear skies ahead, with a light breeze of fresh ideas.',
+    'Scattered bugs this morning; patches expected by afternoon.',
+    'A warm front of coffee is moving through the workspace.',
+    'Partly cloudy, with a high chance of successful builds.',
+    'Thunderstorms of inspiration may arrive without warning.',
+    'A calm day, with a gentle stream of code.',
+    'Forecast: bright ideas followed by scattered commits.',
+  ],
+};
+type FunCommand = keyof typeof funResponses;
+const remainingResponses: Partial<Record<FunCommand, string[]>> = {};
+const lastResponse: Partial<Record<FunCommand, string>> = {};
+
+function nextFunResponse(command: FunCommand) {
+  let remaining = remainingResponses[command];
+  if (!remaining?.length) remaining = [...funResponses[command]];
+  const candidates = remaining.filter((response) => response !== lastResponse[command]);
+  const choices = candidates.length ? candidates : remaining;
+  const response = choices[Math.floor(Math.random() * choices.length)];
+  remaining.splice(remaining.indexOf(response), 1);
+  remainingResponses[command] = remaining;
+  lastResponse[command] = response;
+  return response;
+}
 const help = `Browser Command Prompt — files are stored in this browser only.
 
 ABOUT / SKILLS / CONTACT   Portfolio information
@@ -162,26 +215,14 @@ export function execute(current: TerminalState, line: string): Result {
       ? { ...result, output: `Opening ${project.title}...`, openUrl: project.link }
       : respond('Project not found. Type PROJECTS for the list.');
   }
-  if (cmd === 'coffee')
+  if (cmd === 'coffee' || cmd === 'joke' || cmd === 'weather') {
+    const response = nextFunResponse(cmd);
     return respond(
-      '   ( (\n    ) )\n  ........\n  |      |]\n  \\______/\nCoffee level: restored.'
+      cmd === 'coffee'
+        ? `   ( (\n    ) )\n  ........\n  |      |]\n  \\______/\n${response}`
+        : response
     );
-  if (cmd === 'joke')
-    return respond(
-      [
-        'Why do programmers prefer dark mode? Because light attracts bugs.',
-        'It works on my machine. The machine has been promoted to production.',
-        'A SQL query walks into a bar and asks: Can I join you?',
-      ][Math.floor(Math.random() * 3)]
-    );
-  if (cmd === 'weather')
-    return respond(
-      [
-        'Today: Cloudy with a chance of null pointers.',
-        'Forecast: 99% chance of debugging.',
-        'Sunny with occasional bursts of inspiration.',
-      ][Math.floor(Math.random() * 3)]
-    );
+  }
   if (cmd === 'sudo') return respond('Nice try. This is Windows XP.');
   if (cmd === 'hack' || cmd === 'bsod' || cmd === 'countdown') return { ...result, effect: cmd };
   if (cmd === 'cls') return { ...result, clear: true };

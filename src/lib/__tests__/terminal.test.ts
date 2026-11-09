@@ -49,4 +49,13 @@ describe('browser command prompt', () => {
     for (const cmd of ['hack', 'bsod', 'countdown']) expect(execute(state, cmd).effect).toBe(cmd);
     expect(execute(state, 'help').output).toContain('PROJECTS');
   });
+  it.each(['coffee', 'joke', 'weather'])(
+    '%s offers varied results without consecutive repeats',
+    (command) => {
+      const state = createTerminal();
+      const outputs = Array.from({ length: 30 }, () => execute(state, command).output);
+      expect(new Set(outputs).size).toBeGreaterThanOrEqual(8);
+      for (let i = 1; i < outputs.length; i++) expect(outputs[i]).not.toBe(outputs[i - 1]);
+    }
+  );
 });
