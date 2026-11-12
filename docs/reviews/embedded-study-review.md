@@ -42,3 +42,24 @@ not exposed through search or previous/next navigation.
 
 This is an educational content review, not hardware certification or verification
 of firmware on a physical board.
+
+## Sourced expansion
+
+Added 20 explanatory sections across the 10 chapters, each with an inline primary
+source and a worked example. The rendered section is filtered by relevant topic
+when a specific lesson is selected. Core Concepts and the duplicated introductory
+exercise block were removed.
+
+Additional references checked:
+
+- WG14 N1570 (public C11 committee draft), array/pointer and parameter rules.
+- GCC Overall Options, preprocessing / compilation / assembly / linking.
+- TI SLVA689, pull-up resistance bounds and 30–70% rise-time equation.
+- ST AN4776 and ADC measurement recommendations, timer preload and sampling.
+- FreeRTOS-Kernel queue.h / semphr.h API documentation, copying and ownership.
+- Microchip AT24C256C page-write and acknowledge-polling documentation.
+- OASIS MQTT 3.1.1, QoS and retained-message semantics.
+- Linux read(2), GNU GDB watchpoints, and git-bisect manuals.
+
+Worked numbers use explicitly stated assumptions; they are not measurements of
+this user's board. New content is an original explanation, not copied manual text.

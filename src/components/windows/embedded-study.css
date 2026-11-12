@@ -843,3 +843,45 @@
   background: #eef6f1;
   box-shadow: 0 3px 14px #6a9a7c15;
 }
+.study-reference-lessons > section {
+  margin: 32px 0 42px;
+  padding-top: 20px;
+  border-top: 1px solid #e8eeeb;
+}
+.study-reference-lessons h3 {
+  font-size: 20px;
+  line-height: 1.5;
+  font-weight: 600;
+  color: #354b40;
+  margin: 0 0 18px;
+}
+.study-reference-lessons p {
+  font-size: 14px;
+  line-height: 2.1;
+  color: #53636f;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  margin: 15px 0;
+}
+.study-reference-lessons a {
+  display: inline-block;
+  font-size: 11px;
+  line-height: 1.8;
+  color: #608678;
+  text-decoration: underline;
+  margin-top: 9px;
+}
+.study-worked-note {
+  background: #f7faf8;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin: 22px 0 12px;
+}
+.study-worked-note > b {
+  font-size: 11px;
+  color: #809b8b;
+}
+.study-worked-note p {
+  margin: 7px 0 0;
+  font-size: 13px;
+}

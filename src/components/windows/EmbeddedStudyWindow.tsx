@@ -4,6 +4,7 @@ import { embeddedDetails } from '../../data/embedded-details';
 import './embedded-study.css';
 import { StudyTree } from './StudyTree';
 import { workshops } from '../../data/embedded-workshops';
+import { referenceLessons } from '../../data/embedded-reference-lessons';
 import { lessonDetails } from '../../data/embedded-lessons';
 const STORAGE = 'embedded-study-progress-v1';
 function loadCompleted(): string[] {
@@ -124,14 +125,6 @@ export function EmbeddedStudyWindow() {
               {(lessonDetails[current.id]?.[topic] ?? []).map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
-              <div className="lesson-check">
-                <b>생각해 보기</b>
-                <p>{current.exercise}</p>
-                <details>
-                  <summary>문제를 풀 때 확인할 순서</summary>
-                  <p>{(embeddedDetails[current.id] ?? []).slice(-1)[0]?.paragraphs.join(' ')}</p>
-                </details>
-              </div>
             </section>
           )}
 
@@ -149,19 +142,24 @@ export function EmbeddedStudyWindow() {
               </section>
             ))}
           </div>
-          <div className="study-section-head">
-            CORE CONCEPTS <span>핵심 개념 살펴보기</span>
-          </div>
-          <div className="study-sections">
-            {current.sections.map((item, i) => (
-              <section key={item.title}>
-                <span>{String(i + 1).padStart(2, '0')}</span>
-                <div>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                </div>
-              </section>
-            ))}
+          <div className="study-reference-lessons">
+            {(referenceLessons[current.id] ?? [])
+              .filter((section) => topic === null || section.topics.includes(topic))
+              .map((section) => (
+                <section key={section.title}>
+                  <h3>{section.title}</h3>
+                  {section.paragraphs.map((p) => (
+                    <p key={p}>{p}</p>
+                  ))}
+                  <div className="study-worked-note">
+                    <b>예제로 따라가기</b>
+                    <p>{section.example}</p>
+                  </div>
+                  <a href={section.source.url} target="_blank" rel="noopener noreferrer">
+                    {section.source.label} ↗
+                  </a>
+                </section>
+              ))}
           </div>
           {current.code && (
             <section className="study-code">
