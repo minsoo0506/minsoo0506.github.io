@@ -139,8 +139,8 @@ function Waveform({
   );
 }
 
-export function ModbusLabWindow() {
-  const [mission, setMission] = useState<Mission | null>(null);
+export function ModbusLabWindow({ initialMission }: { initialMission?: Mission } = {}) {
+  const [mission, setMission] = useState<Mission | null>(initialMission ?? null);
   const [wires, setWires] = useState<Record<string, string>>({});
   const [baud, setBaud] = useState('');
   const [address, setAddress] = useState('');
@@ -153,7 +153,11 @@ export function ModbusLabWindow() {
   const [popup, setPopup] = useState('');
   const [byteIndex, setByteIndex] = useState('0');
   const [direction, setDirection] = useState('TX');
-  const [status, setStatus] = useState('Select a mission to begin.');
+  const [status, setStatus] = useState(
+    initialMission
+      ? 'Connect the pins and configure the controller to begin.'
+      : 'Select a mission to begin.'
+  );
   const [history, setHistory] = useState<Exchange[]>([]);
   const [selected, setSelected] = useState(0);
   const [hint, setHint] = useState(false);
@@ -274,7 +278,13 @@ export function ModbusLabWindow() {
       <header className="lab-header">
         <div>
           <span className="lab-kicker">VIRTUAL HARDWARE SIMULATOR</span>
-          <h1>Modbus Lab</h1>
+          <h1>
+            {initialMission === 1
+              ? 'RS-232 · Temperature Sensor'
+              : initialMission === 2
+              ? 'RS-485 · Inverter Control'
+              : 'Modbus Lab'}
+          </h1>
           <p>Wire it up. Send a frame. Bring the sensor online.</p>
         </div>
         <span className="lab-badge">
@@ -283,24 +293,26 @@ export function ModbusLabWindow() {
           NO HARDWARE REQUIRED
         </span>
       </header>
-      <nav className="lab-missions" aria-label="Select mission">
-        <button className={mission === 1 ? 'selected' : ''} onClick={() => start(1)}>
-          <b>01</b>
-          <span>
-            <strong>RS-232</strong>
-            <small>Connect the sensor</small>
-          </span>
-          <span>Start mission 1 →</span>
-        </button>
-        <button className={mission === 2 ? 'selected' : ''} onClick={() => start(2)}>
-          <b>02</b>
-          <span>
-            <strong>RS-485</strong>
-            <small>Control the inverter</small>
-          </span>
-          <span>Start mission 2 →</span>
-        </button>
-      </nav>
+      {!initialMission && (
+        <nav className="lab-missions" aria-label="Select mission">
+          <button className={mission === 1 ? 'selected' : ''} onClick={() => start(1)}>
+            <b>01</b>
+            <span>
+              <strong>RS-232</strong>
+              <small>Connect the sensor</small>
+            </span>
+            <span>Start mission 1 →</span>
+          </button>
+          <button className={mission === 2 ? 'selected' : ''} onClick={() => start(2)}>
+            <b>02</b>
+            <span>
+              <strong>RS-485</strong>
+              <small>Control the inverter</small>
+            </span>
+            <span>Start mission 2 →</span>
+          </button>
+        </nav>
+      )}
       {mission ? (
         <>
           <div className="lab-workspace">

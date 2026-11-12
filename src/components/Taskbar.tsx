@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { Cable, Factory, Gamepad2, KeyRound, Power } from 'lucide-react';
+import { PixelGamepad, PixelBooks } from './PixelIcons';
+import { Cable, Factory, KeyRound, Power } from 'lucide-react';
 
 interface TaskbarDataProps {
   fullname: string;
@@ -52,7 +53,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
   const openPlayground = (element: HTMLElement) => {
     cancelClose();
     const rect = element.getBoundingClientRect();
-    const width = 190;
+    const width = 220;
     setPlaygroundPosition({
       left:
         rect.right + width <= window.innerWidth
@@ -98,7 +99,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
     },
     {
       id: 'modbus',
-      label: 'Modbus Lab',
+      label: 'Communication Protocols',
       subtitle: 'Serial Simulator',
       icon: <Cable className="w-8 h-8 text-[#326e60]" />,
     },
@@ -320,7 +321,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                   }}
                   className="w-full text-left px-3 py-1 flex items-center gap-2 hover:bg-[#2F71CD] hover:text-white text-[11px] font-bold text-[#00136B]"
                 >
-                  <Gamepad2 className="w-8 h-8 text-[#805098]" />
+                  <PixelGamepad />
                   <span className="flex-1">Playground</span>
                   <span aria-hidden="true">▶</span>
                 </button>
@@ -329,7 +330,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                     <div
                       id="playground-menu"
                       aria-label="Playground applications"
-                      className="fixed w-[190px] bg-[#f9f8ef] border border-[#687b99] shadow-lg p-1 z-[80]"
+                      className="fixed w-[220px] bg-[#f9f8ef] border border-[#687b99] shadow-lg p-1 z-[80]"
                       style={{ left: playgroundPosition.left, top: playgroundPosition.top }}
                       onMouseEnter={cancelClose}
                       onMouseLeave={scheduleClose}
@@ -343,7 +344,7 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                       }}
                     >
                       {[
-                        ['modbus', 'Modbus Lab'],
+                        ['modbus', 'Communication Protocols'],
                         ['factory', 'Factory Control'],
                       ].map(([id, label]) => (
                         <button
@@ -362,6 +363,13 @@ export const Taskbar: React.FC<TaskbarProps> = ({
                     </div>,
                     document.body
                   )}
+                <button
+                  onClick={() => handleMenuItemClick('study')}
+                  className="w-full text-left px-3 py-1 flex items-center gap-2 hover:bg-[#2F71CD] hover:text-white text-[11px] font-bold text-[#00136B]"
+                >
+                  <PixelBooks />
+                  <span>Embedded Study</span>
+                </button>
                 {menuItems
                   .filter((item) => item.id === 'terminal')
                   .map((item) => (

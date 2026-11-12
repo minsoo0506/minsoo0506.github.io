@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { DocumentsWindow } from './components/windows/DocumentsWindow';
 import { CommandPromptWindow } from './components/windows/CommandPromptWindow';
-import { ModbusLabWindow } from './components/windows/ModbusLabWindow';
-import { FactoryControlWindow } from './components/windows/FactoryControlWindow';
+import { ProtocolLabWindow } from './components/windows/ProtocolLabWindow';
+import { FactoryStagesWindow } from './components/windows/FactoryStagesWindow';
+import { EmbeddedStudyWindow } from './components/windows/EmbeddedStudyWindow';
 import { Cable, Factory, Music } from 'lucide-react';
+import { PixelBooks } from './components/PixelIcons';
 import { MusicWindow } from './components/windows/MusicWindow';
 import { Window } from './components/Window';
 import { Taskbar } from './components/Taskbar';
@@ -109,15 +111,21 @@ function App() {
         position: { x: 100, y: 75 },
       },
       modbus: {
-        title: 'Modbus Lab',
+        title: 'Communication Protocols',
         icon: <Cable size={16} className="text-white" />,
-        component: <ModbusLabWindow />,
+        component: <ProtocolLabWindow />,
         position: { x: 80, y: 35 },
       },
       factory: {
         title: 'Factory Control',
         icon: <Factory size={16} className="text-white" />,
-        component: <FactoryControlWindow />,
+        component: <FactoryStagesWindow />,
+        position: { x: 80, y: 35 },
+      },
+      study: {
+        title: 'Embedded Study',
+        icon: <PixelBooks size={16} />,
+        component: <EmbeddedStudyWindow />,
         position: { x: 80, y: 35 },
       },
       contact: {
@@ -255,13 +263,14 @@ function App() {
             key={window.id}
             onClick={() => handleWindowClick(window.id)}
             style={{ zIndex: activeWindow === window.id ? 30 : 20 }}
-            className="pointer-events-auto"
+            className="pointer-events-auto relative"
           >
             <Window
               explorer={
                 window.id === 'documents' ||
                 window.id === 'modbus' ||
-                window.id === 'factory'
+                window.id === 'factory' ||
+                window.id === 'study'
               }
               media={window.id === 'music'}
               terminal={window.id === 'terminal'}

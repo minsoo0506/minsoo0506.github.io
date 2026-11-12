@@ -55,9 +55,9 @@ describe('Taskbar', () => {
     expect(onStartMenuClick).toHaveBeenLastCalledWith('documents');
     expect(screen.queryByText('My Documents')).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /start/i }));
-    expect(screen.queryByText('Modbus Lab')).not.toBeInTheDocument();
+    expect(screen.queryByText('Communication Protocols')).not.toBeInTheDocument();
     await user.hover(screen.getByRole('button', { name: /playground/i }));
-    await user.click(screen.getByText('Modbus Lab'));
+    await user.click(screen.getByText('Communication Protocols'));
     expect(onStartMenuClick).toHaveBeenLastCalledWith('modbus');
     await user.click(screen.getByRole('button', { name: /start/i }));
     await user.hover(screen.getByRole('button', { name: /playground/i }));
@@ -67,6 +67,9 @@ describe('Taskbar', () => {
     await user.hover(screen.getByRole('button', { name: /playground/i }));
     await user.unhover(screen.getByRole('button', { name: /playground/i }));
     await waitFor(() => expect(screen.queryByText('Factory Control')).not.toBeInTheDocument());
+    await user.click(screen.getByText('Embedded Study'));
+    expect(onStartMenuClick).toHaveBeenLastCalledWith('study');
+    await user.click(screen.getByRole('button', { name: /start/i }));
     await user.click(screen.getByText('Command Prompt'));
     expect(onStartMenuClick).toHaveBeenLastCalledWith('terminal');
   });
